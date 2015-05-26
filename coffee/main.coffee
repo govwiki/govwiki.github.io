@@ -56,12 +56,14 @@ activate_tab =() ->
 
 gov_selector.on_selected = (evt, data, name) ->
   #renderData '#details', data
-  $('#details').html templates.get_html(0, data)
-  #get_record "inc_id:#{data["inc_id"]}"
-  get_record2 data["_id"]
-  activate_tab()
-  GOVWIKI.show_data_page()
-  return
+  get_elected_officials data._id, 25, (data2, textStatus, jqXHR) ->
+    data.elected_officials = data2
+    $('#details').html templates.get_html(0, data)
+    #get_record "inc_id:#{data["inc_id"]}"
+    get_record2 data["_id"]
+    activate_tab()
+    GOVWIKI.show_data_page()
+    return
 
 
 get_record = (query) ->
