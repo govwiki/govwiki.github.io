@@ -45,54 +45,53 @@ render_field = (fName,data)->
   """
 
   
-render_fields =( fields, data) ->
-  ( render_field(f, data) for f in fields).join('')
-
-
-  
-under = (s) -> s.replace(/ /g, '_')
-
-
-render_tabs = (initial_layout, data) ->
-  layout = add_other_tab_to_layout initial_layout, data
-  
-  # Title
-  h = "<h3>#{data.gov_name}</h3>"
-  
-  #render header
-  h += '<div role="tabpanel" >'
-
-  #render tabs
-  h +='<ul id="fieldTabs" class="nav nav-pills" role="tablist">'
-  
-  for tab,i in layout
-    active = if i>0 then '' else 'active'
-    h +="""
-      <li role="presentation" class="#{active}"  onclick="remember_tab('#{under(tab.name)}')">
-        <a href="#tab#{under(tab.name)}" aria-controls="home" role="tab" data-toggle="tab">
-        #{tab.name}
-        </a>
-      </li>
-    """
-
-  h += '</ul>'
-  h += '<div id="tabsContent" class="tab-content">'
-
-  #render tabs content
-  for tab,i in layout
-    active = if i>0 then '' else 'active'
-    h +="""
-    <div role="tabpanel" class="tab-pane #{active} one-tab" id="tab#{under(tab.name)}" style="padding-top: 20px;">
-        <h4>#{tab.name}</h4>
-        <br>
-        #{render_fields tab.fields, data}
-    </div>
-    """
-  
-  #render footer
-  h +='</div>'
-  h +='</div>'
+render_fields = (fields,data,template)->
+  h = ''
+  for field,i in fields
+    fValue = render_field_value field, data
+    if ('' != fValue)
+      fName = render_field_name field
+      h += template(name: fName, value: fValue)
   return h
+
+
+under = (s) -> s.replace(/[\s\+\-]/g, '_')
+
+
+render_tabs = (initial_layout, data, templates) ->
+  layout = add_other_tab_to_layout initial_layout, data
+
+  layout_data =
+    title: data.gov_name,
+    tabs: [],
+    tabcontent: ''
+  
+  for tab,i in layout
+    layout_data.tabs.push
+      tabid: under(tab.name),
+      tabname: tab.name,
+      active: (if i>0 then '' else 'active')
+
+  for tab,i in layout
+    detail_data =
+      tabid: under(tab.name),
+      tabname: tab.name,
+      active: (if i>0 then '' else 'active')
+      tabcontent: ''
+    switch tab.name
+      when 'Overview + Elected Officials'
+        for official,i in data.elected_officials.record
+          official_data =
+            title: "Title: " + official.title,
+            name: official.full_name,
+            email: official.email_address
+            termexpires: official.term_expires
+          official_data.image = '<img src="'+official.photo_url+'" alt="" />' if '' != official.photo_url
+          detail_data.tabcontent += templates['tabdetail-official-template'](official_data)
+      else
+        detail_data.tabcontent += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
+    layout_data.tabcontent += templates['tabdetail-template'](detail_data)
+  return templates['tabpanel-template'](layout_data)
 
 
 get_layout_fields = (la) ->
@@ -170,15 +169,24 @@ convert_fusion_template=(templ) ->
 class Templates2
 
   @list = undefined
+  @templates = {}
 
   constructor:() ->
     @list = []
+    templateList = ['tabpanel-template', 'tabdetail-template', 'tabdetail-namevalue-template', 'tabdetail-official-template'];
+    templatePartials = ['tab-template'];
+    @templates = {}
+    for template,i in templateList
+      @templates[template] = Handlebars.compile($('#' + template).html())
+    for template,i in templatePartials
+      Handlebars.registerPartial(template, $('#' + template).html())
 
   add_template: (layout_name, layout_json) ->
     @list.push
       name:layout_name
+      templates: @templates
       render:(dat) ->
-        render_tabs(layout_json, dat)
+        render_tabs(layout_json, dat, @templates)
 
 
   load_template:(template_name, url) ->

@@ -142,7 +142,6 @@ get_records2 = (query, limit, onsuccess) ->
     error:(e) ->
       console.log e
 
-
 # GEOCODING ========================================
 
 pinImage = new (google.maps.MarkerImage)(
@@ -197,4 +196,3 @@ module.exports =
   gocode_addr: geocode_addr
   on_bounds_changed: on_bounds_changed
   on_bounds_changed_later: on_bounds_changed_later
-

@@ -152,7 +152,56 @@
           </div>
         </div>
       </div>
-    </nav>
+    </nav><script id="tab-template" type="text/x-handlebars-template">
+	<li role="presentation" class="{{active}}">
+		<a href="#{{tabid}}" aria-controls="home" role="tab"
+		  data-toggle="tab" data-tabname="{{tabname}}">{{tabname}}</a>
+	</li>
+</script>
+
+<script id="tabpanel-template" type="text/x-handlebars-template">
+	<div id="details">
+		<h3>{{title}}</h3>
+		<div class="tabpanel">
+			<ul id="fieldTabs" class="nav nav-pills" role="tablist">
+				{{#each tabs}}
+					{{> tab-template }}
+				{{/each}}
+			</ul>
+			<div id="tabsContent" class="tab-content">
+				{{{tabcontent}}}
+			</div>
+		</div>
+	</div>
+</script>
+
+<script id="tabdetail-template" type="text/x-handlebars-template">
+	<div role="tabpanel" class="tab-pane one-tab {{active}}" id="{{tabid}}" style="padding-top: 20px">
+		<h4>{{tabname}}</h4>
+		<br />
+		{{{tabcontent}}}
+	</div>
+</script>
+
+<script id="tabdetail-namevalue-template" type="text/x-handlebars-template">
+	<div>
+		<span class="f-nam">{{name}}</span>
+		<span class="f-val">{{{value}}}</span>
+	</div>
+</script>
+
+<script id="tabdetail-official-template" type="text/x-handlebars-template">
+	<div>
+		<span class="f-nam">
+			{{title}}<br />
+			{{name}}<br />
+			<a href="mailto:{{email}}">{{email}}</a><br />
+			{{termexpires}}
+		</span>
+		<span class="f-val">{{{image}}}</span>
+	</div>
+</script>
+
     <!-- Scripts -- Placed at the end of the document so the pages load faster-->
     <script src="js_files/jquery.min.js"></script>
     <!--script(src='./js_files/bootstrap.min.js')-->

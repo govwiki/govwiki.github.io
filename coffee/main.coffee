@@ -44,6 +44,12 @@ window.remember_tab =(name)-> active_tab = name
 
 #window.geocode_addr = (input_selector)-> govmap.gocode_addr $(input_selector).val()
 
+$(document).on 'click', '#fieldTabs a', (e) ->
+  active_tab = $(e.currentTarget).data('tabname')
+  console.log active_tab
+  $("#tabsContent .tab-pane").removeClass("active")
+  $($(e.currentTarget).attr('href')).addClass("active")
+
 activate_tab =() ->
   $("#fieldTabs a[href='#tab#{active_tab}']").tab('show')
 
@@ -82,10 +88,29 @@ get_record2 = (recid) ->
     cache: true
     success: (data) ->
       if data
-        $('#details').html templates.get_html(0, data)
-        activate_tab()
-        #govmap.geocode data[0]
+        get_elected_officials data._id, 25, (data2, textStatus, jqXHR) ->
+          data.elected_officials = data2
+          $('#details').html templates.get_html(0, data)
+          activate_tab()
+          #govmap.geocode data[0]
       return
+    error:(e) ->
+      console.log e
+
+
+get_elected_officials = (gov_id, limit, onsuccess) ->
+  $.ajax
+    url:"http://46.101.3.79:80/rest/db/elected_officials"
+    data:
+      filter:"govs_id=" + gov_id
+      fields:"govs_id,title,full_name,email_address,photo_url,term_expires"
+      app_name:"govwiki"
+      order:"display_order"
+      limit:limit
+
+    dataType: 'json'
+    cache: true
+    success: onsuccess
     error:(e) ->
       console.log e
 
@@ -96,11 +121,12 @@ window.GOVWIKI.show_record =(rec)=>
   GOVWIKI.show_data_page()
       
 window.GOVWIKI.show_record2 =(rec)=>
-  $('#details').html templates.get_html(0, rec)
-  get_record2 rec._id
-  activate_tab()
-  GOVWIKI.show_data_page()
-
+  get_elected_officials rec._id, 25, (data, textStatus, jqXHR) ->
+    rec.elected_officials = data
+    $('#details').html templates.get_html(0, rec)
+    get_record2 rec._id
+    activate_tab()
+    GOVWIKI.show_data_page()
 
 
 ###
