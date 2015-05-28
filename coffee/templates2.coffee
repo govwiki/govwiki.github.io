@@ -271,7 +271,10 @@ convert_fusion_template=(templ) ->
       tab_hash[category].push n: val('n', row, col_hash), name: fieldname, fmt: val('mask', row, col_hash)
 
   categories = Object.keys(tab_hash)
+  categories_sort = {}
   for category in categories
+    if not categories_sort[category]
+      categories_sort[category] = tab_hash[category][0].n
     fields = []
     for obj in tab_hash[category]
       fields.push obj
@@ -279,7 +282,17 @@ convert_fusion_template=(templ) ->
       return a.n - b.n
     tab_hash[category] = fields
 
-  tabs = hash_to_array(tab_hash)
+  categories_array = []
+  for category, n of categories_sort
+    categories_array.push category: category, n: n
+  categories_array.sort (a,b) ->
+    return a.n - b.n
+
+  tab_newhash = {}
+  for category in categories_array
+    tab_newhash[category.category] = tab_hash[category.category]
+
+  tabs = hash_to_array(tab_newhash)
   return tabs
 
 

@@ -101,7 +101,7 @@
   border-bottom: 1px dotted #ddd;
 }
 .f-val {
-  min-width: 400px;
+  min-width: 100px;
   display: inline-block;
   color: #000;
   text-align: left;
