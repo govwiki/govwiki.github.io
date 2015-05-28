@@ -72,12 +72,13 @@ render_fields = (fields,data,template)->
 
 render_financial_fields = (data,template)->
   h = ''
+  mask = '$0,0.00'
   category = ''
   for field in data
     if category != field.category_name
       category = field.category_name
       h += template(name: "<b>" + category + "</b>", genfund: '', otherfunds: '', totalfunds: '')
-    h += template(name: "<i>" + field.caption + "</i>", genfund: field.genfund, otherfunds: field.otherfunds, totalfunds: field.totalfunds)
+    h += template(name: "<i>" + field.caption + "</i>", genfund: numeral(field.genfund).format(mask), otherfunds: numeral(field.otherfunds).format(mask), totalfunds: numeral(field.totalfunds).format(mask))
   return h
 
 under = (s) -> s.replace(/[\s\+\-]/g, '_')
