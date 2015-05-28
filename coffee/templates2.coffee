@@ -36,13 +36,21 @@ render_field_name = (fName) ->
 
 
 render_field = (fName,data)->
-  #return ''  unless fValue = data[fName]
-  """
-  <div>
-      <span class='f-nam'>#{render_field_name fName}</span>
-      <span class='f-val'>#{render_field_value(fName,data)}</span>
-  </div>
-  """
+  if "_" == substr fName, 0, 1
+    """
+    <div>
+        <span class='f-nam'>#{render_field_name fName}</span>
+        <span class='f-val'>&nbsp;</span>
+    </div>
+    """
+  else
+    return '' unless fValue = data[fName]
+    """
+    <div>
+        <span class='f-nam'>#{render_field_name fName}</span>
+        <span class='f-val'>#{render_field_value(fName,data)}</span>
+    </div>
+    """
 
   
 render_fields = (fields,data,template)->
@@ -58,8 +66,11 @@ render_fields = (fields,data,template)->
 under = (s) -> s.replace(/[\s\+\-]/g, '_')
 
 
-render_tabs = (initial_layout, data, templates) ->
-  layout = add_other_tab_to_layout initial_layout, data
+render_tabs = (initial_layout, data, tabset, parent) ->
+  #layout = add_other_tab_to_layout initial_layout, data
+  layout = initial_layout
+  templates = parent.templates
+  plot_handles = {}
 
   layout_data =
     title: data.gov_name,
@@ -80,16 +91,69 @@ render_tabs = (initial_layout, data, templates) ->
       tabcontent: ''
     switch tab.name
       when 'Overview + Elected Officials'
+        detail_data.tabcontent += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
         for official,i in data.elected_officials.record
           official_data =
-            title: "Title: " + official.title,
-            name: official.full_name,
-            email: official.email_address
-            termexpires: official.term_expires
+            title: if '' != official.title then "Title: " + official.title else ''
+            name: if '' != official.full_name then "Name: " + official.full_name else ''
+            email: if '' != official.email_address then "Email: " + official.email_address else ''
+            termexpires: if '' != official.term_expires then "Term Expires: " + official.term_expires else ''
           official_data.image = '<img src="'+official.photo_url+'" alt="" />' if '' != official.photo_url
           detail_data.tabcontent += templates['tabdetail-official-template'](official_data)
+      when 'Employee Compensation'
+        h = ''
+        h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
+        detail_data.tabcontent += templates['tabdetail-employee-comp-template'](content: h)
+        tabset.bind tab.name, (tpl_name, data) ->
+          options =
+            xaxis:
+              minTickSize: 2
+            series:
+              bars:
+                show: true
+                barWidth: .9
+                align: "center"
+          if not plot_handles['median-comp-graph']
+            options.xaxis.ticks = [[1, "Median Total Gov. Comp"], [2, "Median Total Individual Comp"]]
+            plot_spec = []
+            plot_data_bottom = [[1, data['median_total_comp_per_ft_emp'] / data['median_total_comp_over_median_individual_comp']], [2, data['median_total_comp_per_ft_emp']]]
+            plot_data_top = [[], []]
+            plot_spec.push
+              data: plot_data_bottom
+            ###
+            plot_spec.push
+              data: plot_data_top
+            ###
+            plot_handles['median-comp-graph'] = $("#median-comp-graph").plot(plot_spec, options)
+          if not plot_handles['median-pension-graph']
+            options.xaxis.ticks = [[1, "Median Pension for Retiree w/ 30 Years"], [2, "Median Total Individual Comp"]]
+            plot_spec = []
+            plot_data_bottom = [[1, data['median_pension_30_year_retiree']], [2, data['median_earnings']]]
+            plot_data_top = [[], []]
+            plot_spec.push
+              data: plot_data_bottom
+            ###
+            plot_spec.push
+              data: plot_data_top
+            ###
+            plot_handles['median-pension-graph'] = $("#median-pension-graph").plot(plot_spec, options)
+          #if not plot_handles['pct-pension-graph']
+          if false
+            plot_spec = []
+            plot_data_bottom = [[], []]
+            plot_data_top = [[], []]
+            plot_spec.push
+              data: plot_data_bottom
+              label: "Pension & OPEB (req'd) as % of total revenue"
+            ###
+            plot_spec.push
+              data: plot_data_top
+              label: "Median Total Individual Comp"
+            ###
+            plot_handles['pct-pension-graph'] = $("#pct-pension-graph").plot(plot_spec, options)
       else
         detail_data.tabcontent += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
+    
     layout_data.tabcontent += templates['tabdetail-template'](detail_data)
   return templates['tabpanel-template'](layout_data)
 
@@ -137,8 +201,8 @@ convert_fusion_template=(templ) ->
     col_hash[col_name]=i for col_name,i in templ.columns
     return col_hash
   
-  # returns feild value by its name, array of fields, and hash of fields
-  val = (field_name, fields, col_hush) ->
+  # returns field value by its name, array of fields, and hash of fields
+  val = (field_name, fields, col_hash) ->
     fields[col_hash[field_name]]
   
   # converts hash to an array template
@@ -153,14 +217,29 @@ convert_fusion_template=(templ) ->
 
     
   col_hash = get_col_hash(templ.col_hash)
+  placeholder_count = 0
   
   for row,i in templ.rows
     category = val 'general_category', row, col_hash
     #tab_hash[category]=[] unless tab_hash[category]
+    fieldname = val 'field_name', row, col_hash
+    if not fieldname then fieldname = "_" + String ++placeholder_count
     fieldNames[val 'field_name', row, col_hash]=val 'description', row, col_hash
     if category
       tab_hash[category]?=[]
-      tab_hash[category].push val 'field_name', row, col_hash
+      tab_hash[category].push n: val('n', row, col_hash), name: fieldname
+
+  categories = Object.keys(tab_hash)
+  for category in categories
+    fields = []
+    for obj in tab_hash[category]
+      fields.push obj
+    fields.sort (a,b) ->
+      return a.n - b.n
+    newFields = []
+    for field in fields
+      newFields.push field.name
+    tab_hash[category] = newFields
 
   tabs = hash_to_array(tab_hash)
   return tabs
@@ -169,12 +248,15 @@ convert_fusion_template=(templ) ->
 class Templates2
 
   @list = undefined
-  @templates = {}
+  @templates = undefined
+  @data = undefined
+  @events = undefined
 
   constructor:() ->
     @list = []
-    templateList = ['tabpanel-template', 'tabdetail-template', 'tabdetail-namevalue-template', 'tabdetail-official-template'];
-    templatePartials = ['tab-template'];
+    @events = {}
+    templateList = ['tabpanel-template', 'tabdetail-template', 'tabdetail-namevalue-template', 'tabdetail-official-template', 'tabdetail-employee-comp-template']
+    templatePartials = ['tab-template']
     @templates = {}
     for template,i in templateList
       @templates[template] = Handlebars.compile($('#' + template).html())
@@ -183,11 +265,20 @@ class Templates2
 
   add_template: (layout_name, layout_json) ->
     @list.push
+      parent:this
       name:layout_name
-      templates: @templates
       render:(dat) ->
-        render_tabs(layout_json, dat, @templates)
-
+        @parent.data = dat
+        render_tabs(layout_json, dat, this, @parent)
+      bind: (tpl_name, callback) ->
+        if not @parent.events[tpl_name]
+          @parent.events[tpl_name] = [callback]
+        else
+          @parent.events[tpl_name].push callback
+      activate: (tpl_name) ->
+        if @parent.events[tpl_name]
+          for e,i in @parent.events[tpl_name]
+            e tpl_name, @parent.data
 
   load_template:(template_name, url) ->
     $.ajax
@@ -205,7 +296,6 @@ class Templates2
       cache: true
       success: (template_json) =>
         t = convert_fusion_template template_json
-        console.log t
         @add_template(template_name, t)
         return
 
@@ -227,6 +317,8 @@ class Templates2
     else
       return ""
 
-
+  activate: (ind, tpl_name) ->
+    if @list[ind]
+      @list[ind].activate tpl_name
 
 module.exports = Templates2

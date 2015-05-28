@@ -49,6 +49,7 @@ $(document).on 'click', '#fieldTabs a', (e) ->
   console.log active_tab
   $("#tabsContent .tab-pane").removeClass("active")
   $($(e.currentTarget).attr('href')).addClass("active")
+  templates.activate 0, active_tab
 
 activate_tab =() ->
   $("#fieldTabs a[href='#tab#{active_tab}']").tab('show')
@@ -121,7 +122,7 @@ window.GOVWIKI.show_record =(rec)=>
   $('#details').html templates.get_html(0, rec)
   activate_tab()
   GOVWIKI.show_data_page()
-      
+
 window.GOVWIKI.show_record2 =(rec)=>
   get_elected_officials rec._id, 25, (data, textStatus, jqXHR) ->
     rec.elected_officials = data

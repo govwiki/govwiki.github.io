@@ -202,6 +202,19 @@
 	</div>
 </script>
 
+<script id="tabdetail-employee-comp-template" type="text/x-handlebars-template">
+	<div class="row">
+		<div class="col-sm-6">
+			{{{ content }}}
+		</div>
+		<div class="col-sm-6">
+			<div id="median-comp-graph" style="height: 16em;"></div>
+			<div id="median-pension-graph" style="height: 16em;"></div>
+			<div id="pct-pension-graph" style="height: 16em;"></div>
+		</div>
+	</div>
+</script>
+
     <!-- Scripts -- Placed at the end of the document so the pages load faster-->
     <script src="js_files/jquery.min.js"></script>
     <!--script(src='./js_files/bootstrap.min.js')-->
@@ -209,6 +222,8 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug-->
     <script src="js_files/ie10-viewport-bug-workaround.js"></script>
     <script src="js/plugins.js"></script>
+    <script src="bower_components/flot/jquery.flot.js"></script>
+    <script src="js/vendor/jquery.flot.stack.patched.js"></script>
     <script src="bower_components/typeahead.js/dist/typeahead.bundle.min.js"></script>
     <!--script(src='bower_components/mustache.js/mustache.min.js')-->
     <script src="bower_components/handlebars/handlebars.min.js"></script>

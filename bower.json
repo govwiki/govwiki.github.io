@@ -1,0 +1,25 @@
+{
+  "name": "latest",
+  "version": "latest",
+  "homepage": "latest",
+  "authors": [
+    "Damon Casale <dcasale@websparks.me>"
+  ],
+  "license": "latest",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static"
+  ],
+  "dependencies": {
+  	"flot": "latest",
+    "gmaps": "latest",
+    "handlebars": "latest",
+    "jquery": "latest",
+    "jQuery.scrollTo": "https://github.com/flesler/jquery.scrollTo.git",
+    "mustache.js": "latest",
+    "transparency": "latest",
+    "typeahead.js": "latest"
+  }
+}
