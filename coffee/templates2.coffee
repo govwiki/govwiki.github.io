@@ -14,7 +14,7 @@
 fieldNames = {}
 
 
-render_field_value =(n,data) ->
+render_field_value =(n,mask,data) ->
   v=data[n]
   if not data[n]
     return ''
@@ -22,8 +22,10 @@ render_field_value =(n,data) ->
   if n == "web_site"
     return "<a target='_blank' href='#{v}'>#{v}</a>"
   else
-    return v
-  
+    if '' != mask
+      return numeral(v).format(mask)
+    else
+      return v
   
 
 render_field_name = (fName) ->
@@ -56,9 +58,15 @@ render_field = (fName,data)->
 render_fields = (fields,data,template)->
   h = ''
   for field,i in fields
-    fValue = render_field_value field, data
+    if (typeof field is "object")
+      fValue = render_field_value field.name, field.mask, data
+      if ('' != fValue)
+        fName = render_field_name field.name
+    else
+      fValue = render_field_value field, '', data
+      if ('' != fValue)
+        fName = render_field_name field
     if ('' != fValue)
-      fName = render_field_name field
       h += template(name: fName, value: fValue)
   return h
 
@@ -179,7 +187,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
       when 'Financial Statements'
         if data.financial_statements
           h = ''
-          h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
+          #h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
           h += render_financial_fields data.financial_statements, templates['tabdetail-finstatement-template']
           detail_data.tabcontent += templates['tabdetail-financial-statements-template'](content: h)
           #tabdetail-financial-statements-template
@@ -259,7 +267,7 @@ convert_fusion_template=(templ) ->
     fieldNames[val 'field_name', row, col_hash]=val 'description', row, col_hash
     if category
       tab_hash[category]?=[]
-      tab_hash[category].push n: val('n', row, col_hash), name: fieldname
+      tab_hash[category].push n: val('n', row, col_hash), name: fieldname, fmt: val('mask', row, col_hash)
 
   categories = Object.keys(tab_hash)
   for category in categories
@@ -268,10 +276,7 @@ convert_fusion_template=(templ) ->
       fields.push obj
     fields.sort (a,b) ->
       return a.n - b.n
-    newFields = []
-    for field in fields
-      newFields.push field.name
-    tab_hash[category] = newFields
+    tab_hash[category] = fields
 
   tabs = hash_to_array(tab_hash)
   return tabs

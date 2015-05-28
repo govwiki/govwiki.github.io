@@ -19,6 +19,7 @@
     "jquery": "latest",
     "jQuery.scrollTo": "https://github.com/flesler/jquery.scrollTo.git",
     "mustache.js": "latest",
+    "numeral": "latest",
     "transparency": "latest",
     "typeahead.js": "latest"
   }
