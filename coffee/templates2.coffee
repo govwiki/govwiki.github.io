@@ -62,6 +62,15 @@ render_fields = (fields,data,template)->
       h += template(name: fName, value: fValue)
   return h
 
+render_financial_fields = (data,template)->
+  h = ''
+  category = ''
+  for field in data
+    if category != field.category_name
+      category = field.category_name
+      h += template(name: "<b>" + category + "</b>", genfund: '', otherfunds: '', totalfunds: '')
+    h += template(name: "<i>" + field.caption + "</i>", genfund: field.genfund, otherfunds: field.otherfunds, totalfunds: field.totalfunds)
+  return h
 
 under = (s) -> s.replace(/[\s\+\-]/g, '_')
 
@@ -167,6 +176,13 @@ render_tabs = (initial_layout, data, tabset, parent) ->
           if not plot_handles['public-safety-pie']
             plot_spec = [{label: 'Public safety expense', data: data['public_safety_exp_over_tot_gov_fund_revenue']}, {label: 'Other gov. fund revenue', data: 100 - data['public_safety_exp_over_tot_gov_fund_revenue']}]
             plot_handles['public-safety-pie'] = $("#public-safety-pie").plot(plot_spec, options)
+      when 'Financial Statements'
+        if data.financial_statements
+          h = ''
+          h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
+          h += render_financial_fields data.financial_statements, templates['tabdetail-finstatement-template']
+          detail_data.tabcontent += templates['tabdetail-financial-statements-template'](content: h)
+          #tabdetail-financial-statements-template
       else
         detail_data.tabcontent += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
     
@@ -271,7 +287,7 @@ class Templates2
   constructor:() ->
     @list = []
     @events = {}
-    templateList = ['tabpanel-template', 'tabdetail-template', 'tabdetail-namevalue-template', 'tabdetail-official-template', 'tabdetail-employee-comp-template', 'tabdetail-financial-health-template']
+    templateList = ['tabpanel-template', 'tabdetail-template', 'tabdetail-namevalue-template', 'tabdetail-finstatement-template', 'tabdetail-official-template', 'tabdetail-employee-comp-template', 'tabdetail-financial-health-template', 'tabdetail-financial-statements-template']
     templatePartials = ['tab-template']
     @templates = {}
     for template,i in templateList

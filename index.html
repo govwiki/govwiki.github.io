@@ -189,6 +189,15 @@
 	</div>
 </script>
 
+<script id="tabdetail-finstatement-template" type="text/x-handlebars-template">
+	<div class="row">
+		<div class="col-sm-3">{{{name}}}</div>
+		<div class="col-sm-3">{{genfund}}</div>
+		<div class="col-sm-3">{{otherfunds}}</div>
+		<div class="col-sm-3">{{totalfunds}}</div>
+	</div>
+</script>
+
 <script id="tabdetail-official-template" type="text/x-handlebars-template">
 	<div>
 		<span class="f-nam">
@@ -225,6 +234,17 @@
 	</div>
 </script>
 
+<script id="tabdetail-financial-statements-template" type="text/x-handlebars-template">
+	<div class="row">
+		<div class="col-sm-8">
+			{{{ content }}}
+		</div>
+		<div class="col-sm-4">
+			<div id="public-safety-pie" style="height: 16em;"></div>
+		</div>
+	</div>
+</script>
+
     <!-- Scripts -- Placed at the end of the document so the pages load faster-->
     <script src="js_files/jquery.min.js"></script>
     <!--script(src='./js_files/bootstrap.min.js')-->
@@ -234,6 +254,7 @@
     <script src="js/plugins.js"></script>
     <script src="bower_components/flot/jquery.flot.js"></script>
     <script src="js/vendor/jquery.flot.stack.patched.js"></script>
+    <script src="bower_components/flot/jquery.flot.pie.js"></script>
     <script src="bower_components/typeahead.js/dist/typeahead.bundle.min.js"></script>
     <!--script(src='bower_components/mustache.js/mustache.min.js')-->
     <script src="bower_components/handlebars/handlebars.min.js"></script>

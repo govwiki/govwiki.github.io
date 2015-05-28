@@ -36,6 +36,15 @@
 	</div>
 </script>
 
+<script id="tabdetail-finstatement-template" type="text/x-handlebars-template">
+	<div class="row">
+		<div class="col-sm-3">{{{name}}}</div>
+		<div class="col-sm-3">{{genfund}}</div>
+		<div class="col-sm-3">{{otherfunds}}</div>
+		<div class="col-sm-3">{{totalfunds}}</div>
+	</div>
+</script>
+
 <script id="tabdetail-official-template" type="text/x-handlebars-template">
 	<div>
 		<span class="f-nam">
@@ -62,6 +71,17 @@
 </script>
 
 <script id="tabdetail-financial-health-template" type="text/x-handlebars-template">
+	<div class="row">
+		<div class="col-sm-8">
+			{{{ content }}}
+		</div>
+		<div class="col-sm-4">
+			<div id="public-safety-pie" style="height: 16em;"></div>
+		</div>
+	</div>
+</script>
+
+<script id="tabdetail-financial-statements-template" type="text/x-handlebars-template">
 	<div class="row">
 		<div class="col-sm-8">
 			{{{ content }}}
