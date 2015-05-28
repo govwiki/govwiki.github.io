@@ -50,6 +50,8 @@ class GovSelector
         hint: false
         highlight: false
         minLength: 1
+        classNames:
+        	menu: 'tt-dropdown-menu'
       ,
         name: 'gov_name'
         displayKey: 'gov_name'

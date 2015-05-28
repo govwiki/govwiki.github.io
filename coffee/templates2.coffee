@@ -107,11 +107,15 @@ render_tabs = (initial_layout, data, tabset, parent) ->
         tabset.bind tab.name, (tpl_name, data) ->
           options =
             xaxis:
-              minTickSize: 2
+              minTickSize: 1
+              labelWidth: 100
+            yaxis:
+              tickFormatter: (val, axis) ->
+                return ''
             series:
               bars:
                 show: true
-                barWidth: .9
+                barWidth: .4
                 align: "center"
           if not plot_handles['median-comp-graph']
             options.xaxis.ticks = [[1, "Median Total Gov. Comp"], [2, "Median Total Individual Comp"]]
@@ -151,6 +155,18 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               label: "Median Total Individual Comp"
             ###
             plot_handles['pct-pension-graph'] = $("#pct-pension-graph").plot(plot_spec, options)
+      when 'Financial Health'
+        h = ''
+        h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
+        detail_data.tabcontent += templates['tabdetail-financial-health-template'](content: h)
+        tabset.bind tab.name, (tpl_name, data) ->
+          options =
+            series:
+              pie:
+                show: true
+          if not plot_handles['public-safety-pie']
+            plot_spec = [{label: 'Public safety expense', data: data['public_safety_exp_over_tot_gov_fund_revenue']}, {label: 'Other gov. fund revenue', data: 100 - data['public_safety_exp_over_tot_gov_fund_revenue']}]
+            plot_handles['public-safety-pie'] = $("#public-safety-pie").plot(plot_spec, options)
       else
         detail_data.tabcontent += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
     
@@ -255,7 +271,7 @@ class Templates2
   constructor:() ->
     @list = []
     @events = {}
-    templateList = ['tabpanel-template', 'tabdetail-template', 'tabdetail-namevalue-template', 'tabdetail-official-template', 'tabdetail-employee-comp-template']
+    templateList = ['tabpanel-template', 'tabdetail-template', 'tabdetail-namevalue-template', 'tabdetail-official-template', 'tabdetail-employee-comp-template', 'tabdetail-financial-health-template']
     templatePartials = ['tab-template']
     @templates = {}
     for template,i in templateList
