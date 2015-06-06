@@ -26,7 +26,8 @@ render_field_value =(n,mask,data) ->
       return numeral(v).format(mask)
     else
       return v
-  
+
+
 
 render_field_name = (fName) ->
   if fieldNames[fName]?
