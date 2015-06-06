@@ -268,7 +268,7 @@ convert_fusion_template=(templ) ->
     fieldNames[val 'field_name', row, col_hash]=val 'description', row, col_hash
     if category
       tab_hash[category]?=[]
-      tab_hash[category].push n: val('n', row, col_hash), name: fieldname, fmt: val('mask', row, col_hash)
+      tab_hash[category].push n: val('n', row, col_hash), name: fieldname, mask: val('mask', row, col_hash)
 
   categories = Object.keys(tab_hash)
   categories_sort = {}
