@@ -202,6 +202,7 @@ adjust_typeahead_width =() ->
 
 
 
+
 start_adjusting_typeahead_width =() ->
   $(window).resize ->
     adjust_typeahead_width()

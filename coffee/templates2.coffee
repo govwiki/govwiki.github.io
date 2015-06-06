@@ -116,7 +116,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
             name: if '' != official.full_name then "Name: " + official.full_name else ''
             email: if '' != official.email_address then "Email: " + official.email_address else ''
             termexpires: if '' != official.term_expires then "Term Expires: " + official.term_expires else ''
-          official_data.image = '<img src="'+official.photo_url+'" alt="" />' if '' != official.photo_url
+          official_data.image = '<img src="'+official.photo_url+'" class="portrait" alt="" />' if '' != official.photo_url
           detail_data.tabcontent += templates['tabdetail-official-template'](official_data)
       when 'Employee Compensation'
         h = ''

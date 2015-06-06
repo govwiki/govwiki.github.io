@@ -92,7 +92,7 @@
 /*width: 70px;*/
 }
 .f-nam {
-  min-width: 350px;
+  min-width: 550px;
   display: inline-block;
   color: #aaa;
   text-align: left;
@@ -101,11 +101,14 @@
   border-bottom: 1px dotted #ddd;
 }
 .f-val {
-  min-width: 100px;
+  min-width: 150px;
   display: inline-block;
   color: #000;
-  text-align: left;
+  text-align: right;
   margin-left: 5px;
+}
+.portrait {
+  width: 121px;
 }
 .search-form input {
   height: 40px;
