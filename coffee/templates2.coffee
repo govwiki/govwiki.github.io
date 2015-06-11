@@ -78,7 +78,14 @@ render_financial_fields = (data,template)->
   for field in data
     if category != field.category_name
       category = field.category_name
-      h += template(name: "<b><i>" + category + "</i></b>", genfund: '', otherfunds: '', totalfunds: '')
+      if category == 'Overview' 
+        h += template(name: "<b>" + category + "</b>", genfund: '', otherfunds: '', totalfunds: '')
+      else if category == 'Revenues'
+        h += '</br>' 
+        h += template(name: "<b>" + category + "</b>", genfund: "General Fund", otherfunds: "Other Funds", totalfunds: "Total Gov. Funds")
+      else 
+        h += '</br>'
+        h += template(name: "<b>" + category + "</b>", genfund: '', otherfunds: '', totalfunds: '')
     if field.caption == 'General Fund Balance' or field.caption == 'Long Term Debt'
       h += template(name: field.caption, genfund: numeral(field.genfund).format(mask))
     else 
