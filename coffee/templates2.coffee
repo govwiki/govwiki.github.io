@@ -123,69 +123,107 @@ render_tabs = (initial_layout, data, tabset, parent) ->
         h = ''
         h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
         detail_data.tabcontent += templates['tabdetail-employee-comp-template'](content: h)
-        tabset.bind tab.name, (tpl_name, data) ->
-          options =
-            xaxis:
-              minTickSize: 1
-              labelWidth: 100
-            yaxis:
-              tickFormatter: (val, axis) ->
-                return ''
-            series:
-              bars:
-                show: true
-                barWidth: .4
-                align: "center"
-          if not plot_handles['median-comp-graph']
-            options.xaxis.ticks = [[1, "Median Total Gov. Comp"], [2, "Median Total Individual Comp"]]
-            plot_spec = []
-            plot_data_bottom = [[1, data['median_total_comp_per_ft_emp'] / data['median_total_comp_over_median_individual_comp']], [2, data['median_total_comp_per_ft_emp']]]
-            plot_data_top = [[], []]
-            plot_spec.push
-              data: plot_data_bottom
-            ###
-            plot_spec.push
-              data: plot_data_top
-            ###
-            plot_handles['median-comp-graph'] = $("#median-comp-graph").plot(plot_spec, options)
-          if not plot_handles['median-pension-graph']
-            options.xaxis.ticks = [[1, "Median Pension for Retiree w/ 30 Years"], [2, "Median Total Individual Comp"]]
-            plot_spec = []
-            plot_data_bottom = [[1, data['median_pension_30_year_retiree']], [2, data['median_earnings']]]
-            plot_data_top = [[], []]
-            plot_spec.push
-              data: plot_data_bottom
-            ###
-            plot_spec.push
-              data: plot_data_top
-            ###
-            plot_handles['median-pension-graph'] = $("#median-pension-graph").plot(plot_spec, options)
-          #if not plot_handles['pct-pension-graph']
-          if false
-            plot_spec = []
-            plot_data_bottom = [[], []]
-            plot_data_top = [[], []]
-            plot_spec.push
-              data: plot_data_bottom
-              label: "Pension & OPEB (req'd) as % of total revenue"
-            ###
-            plot_spec.push
-              data: plot_data_top
-              label: "Median Total Individual Comp"
-            ###
-            plot_handles['pct-pension-graph'] = $("#pct-pension-graph").plot(plot_spec, options)
+        if not plot_handles['median-comp-graph']   
+          drawChart = () -> 
+            setTimeout ( ->
+              vis_data = new google.visualization.DataTable()
+              vis_data.addColumn 'string', 'Median Compensation'
+              vis_data.addColumn 'number', 'Wages'
+              vis_data.addColumn 'number', 'Benefits'
+              vis_data.addRows [
+                [
+                  'Median Total \n Gov. Comp'
+                  data['median_salary_per_ft_employee']
+                  data['median_benefits_per_ft_employee']
+                ]
+                [
+                  'Median Total \n Individual Comp'
+                  data['median_wages_general_public']
+                  data['median_benefits_general_public']
+                ]
+              ]
+              options =
+                'title':'Median Total Compensation'
+                'width': 350
+                'height': 290
+                'isStacked': 'true'
+                'colors': ['#005ce6', '#009933']
+              chart = new google.visualization.ColumnChart document.getElementById 'median-comp-graph'
+              chart.draw vis_data, options
+              return
+            ), 1000
+          google.load 'visualization', '1.0',
+          'callback' : drawChart()
+          'packages' :'corechart'
+          plot_handles['median-comp-graph'] ='median-comp-graph'
+        if not plot_handles['median-pension-graph']   
+          drawChart = () -> 
+            setTimeout ( ->
+              vis_data = new google.visualization.DataTable()
+              vis_data.addColumn 'string', 'Median Pension'
+              vis_data.addColumn 'number', 'wages'
+              vis_data.addColumn 'number', 'benefits'
+              vis_data.addRows [
+                [
+                  'Median Pension \n for Retiree w/ 30 Years'
+                  data['median_pension_30_year_retiree']
+                  0
+                ]
+                [
+                  'Median Total \n Individual Comp'
+                  data['median_wages_general_public']
+                  data['median_benefits_general_public']
+                ]
+              ]
+              options =
+                'title':'Median Total Pension'
+                'width': 350
+                'height': 290
+                'isStacked': 'true'
+                'colors': ['#005ce6', '#009933']
+              chart = new google.visualization.ColumnChart document.getElementById 'median-pension-graph' 
+              chart.draw vis_data, options
+              return
+            ), 1000
+          google.load 'visualization', '1.0',
+          'callback' : drawChart()
+          'packages' :'corechart'
+          plot_handles['median-pension-graph'] ='median-pension-graph'
       when 'Financial Health'
         h = ''
         h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
         detail_data.tabcontent += templates['tabdetail-financial-health-template'](content: h)
-        tabset.bind tab.name, (tpl_name, data) ->
-          options =
-            series:
-              pie:
-                show: true
-          if not plot_handles['public-safety-pie']
-            plot_spec = [{label: 'Public safety expense', data: data['public_safety_exp_over_tot_gov_fund_revenue']}, {label: 'Other gov. fund revenue', data: 100 - data['public_safety_exp_over_tot_gov_fund_revenue']}]
-            plot_handles['public-safety-pie'] = $("#public-safety-pie").plot(plot_spec, options)
+        if not plot_handles['public-safety-pie']            
+            drawChart = () -> 
+            setTimeout ( ->
+              vis_data = new google.visualization.DataTable()
+              vis_data.addColumn 'string', 'Public safety expense'
+              vis_data.addColumn 'number', 'Total'
+              vis_data.addRows [
+                [
+                  'Public safety expense'
+                  100 - data['public_safety_exp_over_tot_gov_fund_revenue']
+                ]                
+                [
+                  'Other gov. fund revenue'
+                  data['public_safety_exp_over_tot_gov_fund_revenue']
+                ]
+              ]
+              options =
+                'title':'Public safety expense'
+                'width': 350
+                'height': 290
+                'is3d' : true
+                'colors': ['#005ce6', '#009933']
+                'slices': { 1: {offset: 0.2}}
+              chart = new google.visualization.PieChart document.getElementById 'public-safety-pie' 
+              chart.draw vis_data, options
+              return
+            ), 1000
+          google.load 'visualization', '1.0',
+          'callback' : drawChart()
+          'packages' :'corechart'
+          plot_handles['public-safety-pie'] ='public-safety-pie'
       when 'Financial Statements'
         if data.financial_statements
           h = ''
