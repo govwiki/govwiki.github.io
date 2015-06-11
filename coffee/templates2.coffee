@@ -73,7 +73,7 @@ render_fields = (fields,data,template)->
 
 render_financial_fields = (data,template)->
   h = ''
-  mask = '$0,0.00'
+  mask = '$0,0'
   category = ''
   for field in data
     if category != field.category_name
