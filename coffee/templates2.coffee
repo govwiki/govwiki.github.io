@@ -132,12 +132,12 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               vis_data.addColumn 'number', 'Benefits'
               vis_data.addRows [
                 [
-                  'Median Total \n Gov. Comp'
-                  data['median_salary_per_ft_employee']
-                  data['median_benefits_per_ft_employee']
+                  'Full Time Employees'
+                  data['median_salary_per_full_time_emp']
+                  data['median_benefits_per_ft_emp']
                 ]
                 [
-                  'Median Total \n Individual Comp'
+                  'General Public'
                   data['median_wages_general_public']
                   data['median_benefits_general_public']
                 ]
@@ -165,12 +165,12 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               vis_data.addColumn 'number', 'benefits'
               vis_data.addRows [
                 [
-                  'Median Pension \n for Retiree w/ 30 Years'
+                  'Pension for \n Retiree w/ 30 Years'
                   data['median_pension_30_year_retiree']
                   0
                 ]
                 [
-                  'Median Total \n Individual Comp'
+                  'Total Individual Comp'
                   data['median_wages_general_public']
                   data['median_benefits_general_public']
                 ]
@@ -213,9 +213,10 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 'title':'Public safety expense'
                 'width': 350
                 'height': 290
-                'is3d' : true
+                'is3D' : 'true'
                 'colors': ['#005ce6', '#009933']
                 'slices': { 1: {offset: 0.2}}
+                'pieStartAngle': 20
               chart = new google.visualization.PieChart document.getElementById 'public-safety-pie' 
               chart.draw vis_data, options
               return
