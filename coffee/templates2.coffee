@@ -79,7 +79,10 @@ render_financial_fields = (data,template)->
     if category != field.category_name
       category = field.category_name
       h += template(name: "<b><i>" + category + "</i></b>", genfund: '', otherfunds: '', totalfunds: '')
-    h += template(name: field.caption, genfund: numeral(field.genfund).format(mask), otherfunds: numeral(field.otherfunds).format(mask), totalfunds: numeral(field.totalfunds).format(mask))
+    if field.caption == 'General Fund Balance' or field.caption == 'Long Term Debt'
+      h += template(name: field.caption, genfund: numeral(field.genfund).format(mask))
+    else 
+      h += template(name: field.caption, genfund: numeral(field.genfund).format(mask), otherfunds: numeral(field.otherfunds).format(mask), totalfunds: numeral(field.totalfunds).format(mask))
   return h
 
 under = (s) -> s.replace(/[\s\+\-]/g, '_')
