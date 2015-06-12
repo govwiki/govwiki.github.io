@@ -14,7 +14,7 @@
 fieldNames = {}
 
 
-render_field_value =(n,mask,data) ->
+render_field_value = (n,mask,data) ->
   v=data[n]
   if not data[n]
     return ''
@@ -55,14 +55,34 @@ render_field = (fName,data)->
     </div>
     """
 
-  
+render_subheading = (fName, mask, notFirst, template)->
+  h = ''
+  fName = render_field_name fName
+  fValue = ''      
+  if notFirst != 0
+    h += "<br/>"
+  switch mask
+    when "heading"
+      h += template(name: fName, value: fValue)
+    when "heading_bold"
+      h += "<b>" + template(name: fName, value: fValue) + "</b>"
+    when "heading_italic"
+      h += "<i>" + template(name: fName, value: fValue) + "</i>"
+    when "heading_bold_italic"
+      h += "<b><i>" + template(name: fName, value: fValue) + "</i></b>"  
+  return h
+
 render_fields = (fields,data,template)->
   h = ''
   for field,i in fields
     if (typeof field is "object")
-      fValue = render_field_value field.name, field.mask, data
-      if ('' != fValue)
-        fName = render_field_name field.name
+      if field.mask == "heading" or field.mask == "heading_bold" or field.mask == "heading_italic" or field.mask == "heading_bold_italic"
+        h += render_subheading(field.name, field.mask, i, template)
+        fValue = ''
+      else 
+        fValue = render_field_value field.name, field.mask, data
+        if ('' != fValue)
+          fName = render_field_name field.name
     else
       fValue = render_field_value field, '', data
       if ('' != fValue)
@@ -133,6 +153,8 @@ render_tabs = (initial_layout, data, tabset, parent) ->
         h = ''
         h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
         detail_data.tabcontent += templates['tabdetail-employee-comp-template'](content: h)
+        console.log data
+        console.log tab
         if not plot_handles['median-comp-graph']   
           drawChart = () -> 
             setTimeout ( ->
