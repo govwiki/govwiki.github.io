@@ -102,7 +102,7 @@ render_financial_fields = (data,template)->
         h += template(name: "<b>" + category + "</b>", genfund: '', otherfunds: '', totalfunds: '')
       else if category == 'Revenues'
         h += '</br>' 
-        h += template(name: "<b>" + category + "</b>", genfund: "General Fund", otherfunds: "Other Funds", totalfunds: "Total Gov. Funds")
+        h += "<b>" + template(name: category, genfund: "General Fund", otherfunds: "Other Funds", totalfunds: "Total Gov. Funds") + "</b>"
       else 
         h += '</br>'
         h += template(name: "<b>" + category + "</b>", genfund: '', otherfunds: '', totalfunds: '')
