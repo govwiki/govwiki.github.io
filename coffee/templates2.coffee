@@ -24,8 +24,11 @@ render_field_value = (n,mask,data) ->
   else
     if '' != mask
       return numeral(v).format(mask)
-    else
-      return v
+    else 
+      if v.length > 20
+        v = v.substring(0, 19) + '…'
+      else
+        return v
 
 
 
@@ -153,8 +156,6 @@ render_tabs = (initial_layout, data, tabset, parent) ->
         h = ''
         h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
         detail_data.tabcontent += templates['tabdetail-employee-comp-template'](content: h)
-        console.log data
-        console.log tab
         if not plot_handles['median-comp-graph']   
           drawChart = () -> 
             setTimeout ( ->
@@ -174,6 +175,9 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                   data['median_benefits_general_public']
                 ]
               ]
+              formatter = new google.visualization.NumberFormat(groupingSymbol: ',' , fractionDigits: '0')
+              formatter.format(vis_data, 1);
+              formatter.format(vis_data, 2);              
               options =
                 'title':'Median Total Compensation'
                 'width': 350
@@ -207,6 +211,9 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                   data['median_benefits_general_public']
                 ]
               ]
+              formatter = new google.visualization.NumberFormat(groupingSymbol: ',' , fractionDigits: '0')
+              formatter.format(vis_data, 1);
+              formatter.format(vis_data, 2);
               options =
                 'title':'Median Total Pension'
                 'width': 350
