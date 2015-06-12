@@ -180,8 +180,8 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               formatter.format(vis_data, 2);              
               options =
                 'title':'Median Total Compensation'
-                'width': 350
-                'height': 290
+                'width': 345
+                'height': 295
                 'isStacked': 'true'
                 'colors': ['#005ce6', '#009933']
               chart = new google.visualization.ColumnChart document.getElementById 'median-comp-graph'
@@ -216,8 +216,8 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               formatter.format(vis_data, 2);
               options =
                 'title':'Median Total Pension'
-                'width': 350
-                'height': 290
+                'width': 345
+                'height': 295
                 'isStacked': 'true'
                 'colors': ['#005ce6', '#009933']
               chart = new google.visualization.ColumnChart document.getElementById 'median-pension-graph' 
@@ -250,8 +250,8 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               ]
               options =
                 'title':'Public safety expense'
-                'width': 350
-                'height': 290
+                'width': 345
+                'height': 295
                 'is3D' : 'true'
                 'colors': ['#005ce6', '#009933']
                 'slices': { 1: {offset: 0.2}}
