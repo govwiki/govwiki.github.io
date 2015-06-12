@@ -171,8 +171,8 @@ render_tabs = (initial_layout, data, tabset, parent) ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
               vis_data.addColumn 'string', 'Median Pension'
-              vis_data.addColumn 'number', 'wages'
-              vis_data.addColumn 'number', 'benefits'
+              vis_data.addColumn 'number', 'Wages'
+              vis_data.addColumn 'number', 'Benefits'
               vis_data.addRows [
                 [
                   'Pension for \n Retiree w/ 30 Years'
@@ -180,7 +180,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                   0
                 ]
                 [
-                  'Total Individual Comp'
+                  'General Public'
                   data['median_wages_general_public']
                   data['median_benefits_general_public']
                 ]
@@ -211,11 +211,11 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               vis_data.addColumn 'number', 'Total'
               vis_data.addRows [
                 [
-                  'Public safety expense'
+                  'Public Safety Expense'
                   100 - data['public_safety_exp_over_tot_gov_fund_revenue']
                 ]                
                 [
-                  'Other gov. fund revenue'
+                  'Other Governmental \n Fund Revenue'
                   data['public_safety_exp_over_tot_gov_fund_revenue']
                 ]
               ]
