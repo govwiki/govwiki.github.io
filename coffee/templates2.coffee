@@ -154,7 +154,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               vis_data = new google.visualization.DataTable()
               vis_data.addColumn 'string', 'Median Compensation'
               vis_data.addColumn 'number', 'Wages'
-              vis_data.addColumn 'number', 'Benefits'
+              vis_data.addColumn 'number', 'Bens.'
               vis_data.addRows [
                 [
                   'Full Time Employees'
@@ -190,7 +190,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               vis_data = new google.visualization.DataTable()
               vis_data.addColumn 'string', 'Median Pension'
               vis_data.addColumn 'number', 'Wages'
-              vis_data.addColumn 'number', 'Benefits'
+              vis_data.addColumn 'number', 'Bens.'
               vis_data.addRows [
                 [
                   'Pension for \n Retiree w/ 30 Years'
