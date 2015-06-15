@@ -58,29 +58,21 @@ render_field = (fName,data)->
     </div>
     """
 
-render_subheading = (fName, mask, notFirst, template)->
-  h = ''
+render_subheading = (fName, mask, notFirst)->
+  s = ''
   fName = render_field_name fName
-  fValue = ''      
-  if notFirst != 0
-    h += "<br/>"
-  switch mask
-    when "heading"
-      h += template(name: fName, value: fValue)
-    when "heading_bold"
-      h += "<b>" + template(name: fName, value: fValue) + "</b>"
-    when "heading_italic"
-      h += "<i>" + template(name: fName, value: fValue) + "</i>"
-    when "heading_bold_italic"
-      h += "<b><i>" + template(name: fName, value: fValue) + "</i></b>"  
-  return h
+  if mask == "heading"
+    if notFirst != 0
+      s += "<br/>"
+    s += "<div><span class='f-nam'>#{fName}</span><span class='f-val'> </span></div>"
+  return s
 
 render_fields = (fields,data,template)->
   h = ''
   for field,i in fields
     if (typeof field is "object")
-      if field.mask == "heading" or field.mask == "heading_bold" or field.mask == "heading_italic" or field.mask == "heading_bold_italic"
-        h += render_subheading(field.name, field.mask, i, template)
+      if field.mask == "heading"
+        h += render_subheading(field.name, field.mask, i)
         fValue = ''
       else 
         fValue = render_field_value field.name, field.mask, data
