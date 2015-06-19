@@ -21,6 +21,7 @@
     "mustache.js": "latest",
     "numeral": "latest",
     "transparency": "latest",
-    "typeahead.js": "latest"
+    "typeahead.js": "latest",
+    "grapnel": "latest"
   }
 }

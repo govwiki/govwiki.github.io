@@ -38,7 +38,44 @@ window.GOVWIKI =
 gov_selector = new GovSelector '.typeahead', 'data/h_types_ca.json', 7
 #gov_selector = new GovSelector '.typeahead', 'http://46.101.3.79/rest/db/govs?filter=state=%22CA%22&app_name=govwiki&fields=_id,gov_name,gov_type,state', 7
 templates = new Templates2
-active_tab=""
+active_tab="" 
+
+#"
+
+# fire client-side URL routing
+router = new Grapnel
+router.get ':id', (req) -> 
+  id = req.params.id
+  console.log id
+  get_elected_officials = (gov_id, limit, onsuccess) ->
+    $.ajax
+      url:"http://46.101.3.79:80/rest/db/elected_officials"
+      data:
+        filter:"govs_id=" + gov_id
+        fields:"govs_id,title,full_name,email_address,photo_url,term_expires"
+        app_name:"govwiki"
+        order:"display_order"
+        limit:limit
+
+      dataType: 'json'
+      cache: true
+      success: onsuccess
+      error:(e) ->
+        console.log e
+
+  elected_officials = get_elected_officials id, 25, (elected_officials_data, textStatus, jqXHR) ->
+    data = new Object()
+    data._id = id
+    data.elected_officials = elected_officials_data
+    data.gov_name = ""
+    data.gov_type = ""
+    data.state = ""
+    $('#details').html templates.get_html(0, data)
+    get_record2 data._id
+    activate_tab()
+    GOVWIKI.show_data_page()
+    return
+
 
 window.remember_tab =(name)-> active_tab = name
 
@@ -54,7 +91,6 @@ $(document).on 'click', '#fieldTabs a', (e) ->
 activate_tab =() ->
   $("#fieldTabs a[href='#tab#{active_tab}']").tab('show')
 
-
 gov_selector.on_selected = (evt, data, name) ->
   #renderData '#details', data
   get_elected_officials data._id, 25, (data2, textStatus, jqXHR) ->
@@ -64,6 +100,7 @@ gov_selector.on_selected = (evt, data, name) ->
     get_record2 data["_id"]
     activate_tab()
     GOVWIKI.show_data_page()
+    router.navigate(data._id)
     return
 
 
@@ -142,6 +179,8 @@ window.GOVWIKI.show_record =(rec)=>
   $('#details').html templates.get_html(0, rec)
   activate_tab()
   GOVWIKI.show_data_page()
+  router.navigate(rec._id)
+
 
 window.GOVWIKI.show_record2 =(rec)=>
   get_elected_officials rec._id, 25, (data, textStatus, jqXHR) ->
@@ -150,6 +189,8 @@ window.GOVWIKI.show_record2 =(rec)=>
     get_record2 rec._id
     activate_tab()
     GOVWIKI.show_data_page()
+    router.navigate(rec._id)
+
 
 
 ###
