@@ -23,7 +23,8 @@ QueryMather = (docs, num_items=5) ->
       if GOVWIKI.state_filter and d.state isnt GOVWIKI.state_filter then continue
       if GOVWIKI.gov_type_filter and d.gov_type isnt GOVWIKI.gov_type_filter then continue
 
-      if test_string(d.gov_name, regs) then matches.push $.extend({}, d)
+      if test_string(d.gov_name, regs) 
+        matches.push $.extend({}, d)
       #if test_string("#{d.gov_name} #{d.state} #{d.gov_type} #{d.inc_id}", regs) then matches.push $.extend({}, d)
     
     select_text matches, words, regs
@@ -65,7 +66,7 @@ get_words = (str) ->
 
 get_words_regs = (str) ->
   words = get_words str
-  regs = words.map (w)-> new RegExp("#{w}",'ig')
+  regs = words.map (w)-> new RegExp("#{w}",'i')
   [words,regs]
 
 
