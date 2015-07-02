@@ -118,6 +118,8 @@ render_tabs = (initial_layout, data, tabset, parent) ->
 
   layout_data =
     title: data.gov_name,
+    wikipedia_page_exists: data.wikipedia_page_exists,
+    wikipedia_page_name:  data.wikipedia_page_name,
     tabs: [],
     tabcontent: ''
   

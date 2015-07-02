@@ -160,7 +160,13 @@
 
 <script id="tabpanel-template" type="text/x-handlebars-template">
 	<div id="details">
-		<h3>{{title}}</h3>
+    {{#if wikipedia_page_exists}}
+      <a class="pull-right" target="_blank" href="{{wikipedia_page_name}}">
+        Open Wikipedia article
+        <img src="http://www.mailamengg.com/Portals/0/photo1/logo/wikipedia.png" style="width:48px; height:48px">
+      </a>
+    {{/if}}
+    <h3 style="text-transform:uppercase">{{{title}}}</h3>
 		<div class="tabpanel">
 			<ul id="fieldTabs" class="nav nav-pills" role="tablist">
 				{{#each tabs}}
