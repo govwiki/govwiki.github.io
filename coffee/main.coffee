@@ -46,7 +46,7 @@ active_tab=""
 router = new Grapnel
 router.get ':id', (req) -> 
   id = req.params.id
-  console.log id
+  console.log "ROUTER ID=#{id}"
   get_elected_officials = (gov_id, limit, onsuccess) ->
     $.ajax
       url:"http://46.101.3.79:80/rest/db/elected_officials"
@@ -75,6 +75,8 @@ router.get ':id', (req) ->
     activate_tab()
     GOVWIKI.show_data_page()
     return
+
+
 
 
 window.remember_tab =(name)-> active_tab = name
