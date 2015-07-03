@@ -264,7 +264,13 @@ focus_search_field = (msec) ->
 
 
   
-
+# quick and dirty fix for back button in browser
+window.onhashchange = (e) ->
+  h=window.location.hash
+  #console.log "onHashChange #{h}"
+  #console.log e
+  if not h
+    GOVWIKI.show_search_page()
 
 # =====================================================================
 
