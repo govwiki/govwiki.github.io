@@ -7,14 +7,24 @@
 
 <script id="tabpanel-template" type="text/x-handlebars-template">
 	<div id="details">
-    {{#if wikipedia_page_exists}}
-      <a class="pull-right" target="_blank" href="{{wikipedia_page_name}}">
-        Open Wikipedia article
-        <img src="http://www.mailamengg.com/Portals/0/photo1/logo/wikipedia.png" style="width:48px; height:48px">
-      </a>
-    {{/if}}
-    <h3 style="text-transform:uppercase">{{{title}}}</h3>
-		<div class="tabpanel">
+    <div style="min-height:60px;">
+      <div style="text-align:right; min-height:48px;" class="pull-right">
+        {{#if wikipedia_page_exists}}
+            <a  target="_blank" href="{{wikipedia_page_name}}">
+              Open Wikipedia article
+              <img src="http://www.mailamengg.com/Portals/0/photo1/logo/wikipedia.png" style="width:36px; height:36px">
+            </a>
+        {{/if}}
+        {{#if transparent_california_page_name}}
+            <a  target="_blank" href="{{transparent_california_page_name}}" style="margin-left:20px;">
+              Transparent California
+              <img src="http://us.cdn2.123rf.com/168nwm/blankstock/blankstock1409/blankstock140900218/31369868-text-edit-sign-icon-letter-t-button-circle-flat-button-with-shadow-modern-ui-website-navigation-vect.jpg" style="width:36px; height:36px">
+            </a>
+        {{/if}}
+      </div>
+      <h3 style="text-transform:uppercase;padding:0; margin:0;">{{{title}}}</h3>
+    </div>  
+    <div class="tabpanel">
 			<ul id="fieldTabs" class="nav nav-pills" role="tablist">
 				{{#each tabs}}
 					{{> tab-template }}

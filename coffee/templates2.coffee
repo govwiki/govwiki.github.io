@@ -117,10 +117,11 @@ render_tabs = (initial_layout, data, tabset, parent) ->
   plot_handles = {}
 
   layout_data =
-    title: data.gov_name,
-    wikipedia_page_exists: data.wikipedia_page_exists,
-    wikipedia_page_name:  data.wikipedia_page_name,
-    tabs: [],
+    title: data.gov_name
+    wikipedia_page_exists: data.wikipedia_page_exists
+    wikipedia_page_name:  data.wikipedia_page_name
+    transparent_california_page_name: data.transparent_california_page_name
+    tabs: []
     tabcontent: ''
   
   for tab,i in layout
