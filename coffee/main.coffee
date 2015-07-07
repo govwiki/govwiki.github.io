@@ -36,7 +36,7 @@ window.GOVWIKI =
 
 #gov_selector = new GovSelector '.typeahead', 'data/h_types.json', 7
 gov_selector = new GovSelector '.typeahead', 'data/h_types_ca.json', 7
-#gov_selector = new GovSelector '.typeahead', 'http://46.101.3.79/rest/db/govs?filter=state=%22CA%22&app_name=govwiki&fields=_id,gov_name,gov_type,state', 7
+#gov_selector = new GovSelector '.typeahead', 'http://46.101.3.79/rest/db/govs?filter=state=%22CA%22&app_name=govwiki&fields=_id,gov_name,gov_type,state&limit=5000', 7
 templates = new Templates2
 active_tab="" 
 

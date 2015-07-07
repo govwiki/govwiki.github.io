@@ -162,7 +162,7 @@
 	<div id="details">
     <div style="min-height:60px;">
       <div style="text-align:right; min-height:48px;" class="pull-right">
-        {{#if wikipedia_page_exists}}
+        {{#if wikipedia_page_name}}
             <a  target="_blank" href="{{wikipedia_page_name}}">
               Open Wikipedia article
               <img src="http://www.mailamengg.com/Portals/0/photo1/logo/wikipedia.png" style="width:36px; height:36px">
@@ -220,6 +220,7 @@
 			{{title}}<br>
 			{{name}}<br>
 			<a href="mailto:{{email}}">{{email}}</a><br />
+			{{telephonenumber}}<br />
 			{{termexpires}}
 		</span>
 		<span class="f-val">{{{image}}}</span>
