@@ -90,6 +90,9 @@ $(document).on 'click', '#fieldTabs a', (e) ->
   $($(e.currentTarget).attr('href')).addClass("active")
   templates.activate 0, active_tab
 
+$(document).on 'click', (e) ->
+     $('[data-toggle="tooltip"]').tooltip()
+
 activate_tab =() ->
   $("#fieldTabs a[href='#tab#{active_tab}']").tab('show')
 
@@ -147,7 +150,7 @@ get_elected_officials = (gov_id, limit, onsuccess) ->
     url:"http://46.101.3.79:80/rest/db/elected_officials"
     data:
       filter:"govs_id=" + gov_id
-      fields:"govs_id,title,full_name,email_address,photo_url,term_expires"
+      fields:"govs_id,title,full_name,email_address,photo_url,term_expires,telephone_number"
       app_name:"govwiki"
       order:"display_order"
       limit:limit

@@ -25,8 +25,9 @@ render_field_value = (n,mask,data) ->
     if '' != mask
       return numeral(v).format(mask)
     else 
-      if v.length > 20
-        v = v.substring(0, 19) + '…'
+      if v.length > 20 and
+      n == "open_enrollment_schools"
+      then v = v.substring(0, 19) + "…<div style='display:inline;color:#074d71'  class='tooltipgo' data-toggle='tooltip' title='#{v}'>Read More</div>"
       else
         return v
 
@@ -143,8 +144,9 @@ render_tabs = (initial_layout, data, tabset, parent) ->
           official_data =
             title: if '' != official.title then "Title: " + official.title else ''
             name: if '' != official.full_name then "Name: " + official.full_name else ''
-            email: if '' != official.email_address then "Email: " + official.email_address else ''
-            termexpires: if '' != official.term_expires then "Term Expires: " + official.term_expires else ''
+            email: if null != official.email_address then "Email: " + official.email_address else 'Email: '
+            telephonenumber: if null != official.telephone_number and undefined != official.telephone_number then "Telephone Number:" + official.telephone_number else "Telephone Number:"
+            termexpires: if null != official.term_expires then "Term Expires: " + official.term_expires else 'Term Expires: '
           official_data.image = '<img src="'+official.photo_url+'" class="portrait" alt="" />' if '' != official.photo_url
           detail_data.tabcontent += templates['tabdetail-official-template'](official_data)
       when 'Employee Compensation'
