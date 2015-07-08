@@ -198,15 +198,10 @@ a {
 .nav-pills>li.active>a:focus {
   background-color: #074d71;
 }
-ltipgo + .tooltip > .tooltip-inner {
-  border-radius: 5px;
-  border: 2px solid #074d71;
+.tooltipgo + .tooltip > .tooltip-inner {
   background-color: #074d71;
-  color: #fff;
 }
-.tooltip.in {
-  opacity: 1;
-}
-.tooltip.top .tooltip-arrow {
+.tooltipgo + .tooltip > .tooltip-arrow {
+  border-bottom-color: #074d71;
   border-top-color: #074d71;
 }
