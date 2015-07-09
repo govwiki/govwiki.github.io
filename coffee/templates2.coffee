@@ -176,7 +176,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               formatter.format(vis_data, 1);
               formatter.format(vis_data, 2);              
               options =
-                'title':'Median Total Compensation'
+                'title':'Median Total Compensation - Full Time Workers:'
                 'width': 340
                 'height': 300
                 'isStacked': 'true'
@@ -194,23 +194,15 @@ render_tabs = (initial_layout, data, tabset, parent) ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
               vis_data.addColumn 'string', 'Median Pension'
-              vis_data.addColumn 'number', 'Wages'
               vis_data.addColumn 'number', 'Bens.'
               vis_data.addRows [
                 [
                   'Pension for \n Retiree w/ 30 Years'
                   data['median_pension_30_year_retiree']
-                  0
-                ]
-                [
-                  'General Public'
-                  data['median_wages_general_public']
-                  data['median_benefits_general_public']
                 ]
               ]
               formatter = new google.visualization.NumberFormat(groupingSymbol: ',' , fractionDigits: '0')
               formatter.format(vis_data, 1);
-              formatter.format(vis_data, 2);
               options =
                 'title':'Median Total Pension'
                 'width': 340
@@ -318,11 +310,11 @@ convert_fusion_template=(templ) ->
     col_hash ={}
     col_hash[col_name]=i for col_name,i in templ.columns
     return col_hash
-  
+
   # returns field value by its name, array of fields, and hash of fields
   val = (field_name, fields, col_hash) ->
-    fields[col_hash[field_name]]
-  
+    fields[col_hash[field_name]]  
+
   # converts hash to an array template
   hash_to_array =(hash) ->
     a = []
@@ -330,6 +322,7 @@ convert_fusion_template=(templ) ->
       tab = {}
       tab.name=k
       tab.fields=hash[k]
+      #console.log hash[k]
       a.push tab
     return a
 
@@ -343,6 +336,9 @@ convert_fusion_template=(templ) ->
     fieldname = val 'field_name', row, col_hash
     if not fieldname then fieldname = "_" + String ++placeholder_count
     fieldNames[val 'field_name', row, col_hash]=val 'description', row, col_hash
+    rank = val 'rank', row, col_hash
+    if rank == 'x'
+      console.log val 'field_name', row, col_hash
     if category
       tab_hash[category]?=[]
       tab_hash[category].push n: val('n', row, col_hash), name: fieldname, mask: val('mask', row, col_hash)
@@ -368,6 +364,7 @@ convert_fusion_template=(templ) ->
   tab_newhash = {}
   for category in categories_array
     tab_newhash[category.category] = tab_hash[category.category]
+    #console.log tab_newhash[category.category]
 
   tabs = hash_to_array(tab_newhash)
   return tabs
