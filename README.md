@@ -32,7 +32,7 @@ Open console.
 
 Clone the project
 
-`git clone https://github.com/govwiki/govwiki.us.git`
+`git clone https://github.com/govwiki/govwiki-dev.us.git`
 
 Change directory to govwiki.us/
 
