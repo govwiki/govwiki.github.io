@@ -29,7 +29,7 @@ render_field_value = (n,mask,data) ->
       n == "open_enrollment_schools"
       then v = v.substring(0, 19) + "<div style='display:inline;color:#074d71'  data-trigger='click' class='media-tooltip' data-toggle='tooltip' title='#{v}'>&hellip;</div>"
       else
-        return v
+        return "#{n} #{v}"
 
 
 
@@ -105,13 +105,23 @@ render_financial_fields = (data,template)->
         h += '</br>'
         h += template(name: "<b>" + category + "</b>", genfund: '', otherfunds: '', totalfunds: '')
     if field.caption == 'General Fund Balance' or field.caption == 'Long Term Debt'
-      h += template(name: field.caption, genfund: numeral(field.genfund).format(mask))
+      console.log(field.genfund, numeral(field.genfund), numeral(field.genfund).format(mask))
+      h += template(name: field.caption, genfund: currency(field.genfund, mask))
     else 
-      h += template(name: field.caption, genfund: numeral(field.genfund).format(mask), otherfunds: numeral(field.otherfunds).format(mask), totalfunds: numeral(field.totalfunds).format(mask))
+      h += template(name: field.caption, genfund: currency(field.genfund, mask), otherfunds: currency(field.otherfunds, mask), totalfunds: currency(field.totalfunds, mask))
   return h
 
 under = (s) -> s.replace(/[\s\+\-]/g, '_')
 
+currency = (n, mask) ->
+  n = numeral(n)
+  if n < 0
+    s = n.format(mask).toString()
+    s = s.replace(/-/g, '')
+    return "($#{s})"
+
+  n = n.format(mask)
+  return "$#{n}"
 
 render_tabs = (initial_layout, data, tabset, parent) ->
   #layout = add_other_tab_to_layout initial_layout, data
