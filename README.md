@@ -3,18 +3,18 @@
 
 
 A project for  govwiki.us future site. Html pages, scripts, css etc.
-Everything placed inside the project  is instantly accessible at http://govwiki.github.io/govwiki.us/. 
+Everything placed inside the project  is instantly accessible at http://govwiki.github.io/govwiki-dev.us/. 
 
-Project: https://github.com/govwiki/govwiki.us
+Project: https://github.com/govwiki/govwiki-dev.us
 
-Site: http://govwiki.github.io/govwiki.us/
+Site: http://govwiki.github.io/govwiki-dev.us/
 
 and
 
 http://govwiki.us/
 
 To change this text, please edit README.md   <br>
-https://github.com/govwiki/govwiki.us/edit/gh-pages/README.md
+https://github.com/govwiki/govwiki-dev.us/edit/gh-pages/README.md
 
 ## For developers
 
