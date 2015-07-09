@@ -29,7 +29,7 @@ render_field_value = (n,mask,data) ->
       n == "open_enrollment_schools"
       then v = v.substring(0, 19) + "<div style='display:inline;color:#074d71'  data-trigger='click' class='media-tooltip' data-toggle='tooltip' title='#{v}'>&hellip;</div>"
       else
-        return "#{n} #{v}"
+        return v
 
 
 
@@ -105,7 +105,6 @@ render_financial_fields = (data,template)->
         h += '</br>'
         h += template(name: "<b>" + category + "</b>", genfund: '', otherfunds: '', totalfunds: '')
     if field.caption == 'General Fund Balance' or field.caption == 'Long Term Debt'
-      console.log(field.genfund, numeral(field.genfund), numeral(field.genfund).format(mask))
       h += template(name: field.caption, genfund: currency(field.genfund, mask))
     else 
       h += template(name: field.caption, genfund: currency(field.genfund, mask), otherfunds: currency(field.otherfunds, mask), totalfunds: currency(field.totalfunds, mask))
