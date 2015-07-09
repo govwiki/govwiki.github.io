@@ -90,8 +90,7 @@ $(document).on 'click', '#fieldTabs a', (e) ->
   $($(e.currentTarget).attr('href')).addClass("active")
   templates.activate 0, active_tab
 
-$(document).on 'click', (e) ->
-     $('[data-toggle="tooltip"]').tooltip()
+$(document).tooltip({selector: "[class='media-tooltip']",trigger:'click'})
 
 activate_tab =() ->
   $("#fieldTabs a[href='#tab#{active_tab}']").tab('show')

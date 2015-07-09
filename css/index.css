@@ -94,6 +94,7 @@
   margin-right: 5px;
   text-align: left;
   border-bottom: 1px dotted #ddd;
+  vertical-align: top;
 }
 .f-val {
   min-width: 160px;
@@ -198,10 +199,20 @@ a {
 .nav-pills>li.active>a:focus {
   background-color: #074d71;
 }
-.tooltipgo + .tooltip > .tooltip-inner {
+.media-tooltip + .tooltip .tooltip-inner {
   background-color: #074d71;
+  max-width: 350px;
+  border-radius: 0;
+  opacity: 1;
+  overflow: auto;
+  max-height: 150px;
+  text-align: justify;
 }
-.tooltipgo + .tooltip > .tooltip-arrow {
+.media-tooltip + .tooltip > .tooltip-arrow {
   border-bottom-color: #074d71;
   border-top-color: #074d71;
+}
+.media-tooltip + .tooltip > .in {
+  opacity: 1;
+  filter: alpha 90;
 }

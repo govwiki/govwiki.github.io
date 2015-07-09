@@ -108,6 +108,7 @@ LGR = #DDD
   //text-transform: capitalize
   text-align: left
   border-bottom: 1px dotted LGR
+  vertical-align: top
 
 .f-val
   min-width: 160 px
@@ -221,8 +222,6 @@ CPC_COLOR = #074d71
 h3,a
   color:CPC_COLOR
 
-
-
 .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus
   background-color:CPC_COLOR
 
@@ -231,5 +230,18 @@ h3,a
 
 
 
-.tooltipgo  + .tooltip > .tooltip-inner {background-color: #074d71;}
-.tooltipgo  + .tooltip > .tooltip-arrow {border-bottom-color: #074d71;border-top-color:#074d71;}
+.media-tooltip + .tooltip .tooltip-inner {
+  background-color: #074d71;max-width: 350px;
+  border-radius: 0;
+  opacity: 1.0;
+  overflow: auto;
+  max-height:150px;
+  text-align:justify;
+} 
+.media-tooltip + .tooltip > .tooltip-arrow{border-bottom-color: #074d71;border-top-color:#074d71;}
+    
+    .media-tooltip + .tooltip > .in {
+    opacity:1.0;
+    filter: alpha opacity=90
+    }
+   

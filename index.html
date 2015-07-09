@@ -219,11 +219,17 @@
     <span class="f-nam">
 			{{title}}<br>
 			{{name}}<br>
+			{{#if email}}
 			<a href="mailto:{{email}}">{{email}}</a><br />
+			{{/if}}
+			{{#if telephonenumber}}
 			{{telephonenumber}}<br />
+			{{/if}}
 			{{termexpires}}
 		</span>
+		{{#if image}}
 		<span class="f-val">{{{image}}}</span>
+		{{/if}}
 	</div>
 </script>
 

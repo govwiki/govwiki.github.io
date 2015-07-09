@@ -27,7 +27,7 @@ render_field_value = (n,mask,data) ->
     else 
       if v.length > 20 and
       n == "open_enrollment_schools"
-      then v = v.substring(0, 19) + "…<div style='display:inline;color:#074d71'  class='tooltipgo' data-toggle='tooltip' title='#{v}'>Read More</div>"
+      then v = v.substring(0, 19) + "<div style='display:inline;color:#074d71'  data-trigger='click' class='media-tooltip' data-toggle='tooltip' title='#{v}'>&hellip;</div>"
       else
         return v
 
@@ -79,6 +79,8 @@ render_fields = (fields,data,template)->
         fValue = render_field_value field.name, field.mask, data
         if ('' != fValue)
           fName = render_field_name field.name
+        if (field.name == 'number_of_full_time_employees')
+          fName = fName+'<show help>'
     else
       fValue = render_field_value field, '', data
       if ('' != fValue)
@@ -142,11 +144,11 @@ render_tabs = (initial_layout, data, tabset, parent) ->
         detail_data.tabcontent += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
         for official,i in data.elected_officials.record
           official_data =
-            title: if '' != official.title then "Title: " + official.title else ''
-            name: if '' != official.full_name then "Name: " + official.full_name else ''
-            email: if null != official.email_address then "Email: " + official.email_address else 'Email: '
-            telephonenumber: if null != official.telephone_number and undefined != official.telephone_number then "Telephone Number:" + official.telephone_number else "Telephone Number:"
-            termexpires: if null != official.term_expires then "Term Expires: " + official.term_expires else 'Term Expires: '
+            title: if '' != official.title then "Title: " + official.title
+            name: if '' != official.full_name then "Name: " + official.full_name
+            email: if null != official.email_address then "Email: " + official.email_address
+            telephonenumber: if null != official.telephone_number and undefined != official.telephone_number then "Telephone Number: " + official.telephone_number
+            termexpires: if null != official.term_expires then "Term Expires: " + official.term_expires 
           official_data.image = '<img src="'+official.photo_url+'" class="portrait" alt="" />' if '' != official.photo_url
           detail_data.tabcontent += templates['tabdetail-official-template'](official_data)
       when 'Employee Compensation'
