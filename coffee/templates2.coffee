@@ -133,6 +133,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
     wikipedia_page_exists: data.wikipedia_page_exists
     wikipedia_page_name:  data.wikipedia_page_name
     transparent_california_page_name: data.transparent_california_page_name
+    latest_audit_url: data.latest_audit_url
     tabs: []
     tabcontent: ''
   
