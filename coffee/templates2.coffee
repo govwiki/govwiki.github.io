@@ -112,6 +112,10 @@ render_financial_fields = (data,template)->
 
 under = (s) -> s.replace(/[\s\+\-]/g, '_')
 
+toTitleCase = (str) ->
+  str.replace /\w\S*/g, (txt) ->
+    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+
 currency = (n, mask) ->
   n = numeral(n)
   if n < 0
@@ -165,7 +169,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
         h = ''
         h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
         detail_data.tabcontent += templates['tabdetail-employee-comp-template'](content: h)
-        if not plot_handles['median-comp-graph']   
+        if not plot_handles['median-comp-graph'] 
           drawChart = () -> 
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
@@ -174,12 +178,12 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               vis_data.addColumn 'number', 'Bens.'
               vis_data.addRows [
                 [
-                  'Full Time Employees'
+                  toTitleCase data.gov_name + '\n Employees'
                   data['median_salary_per_full_time_emp']
                   data['median_benefits_per_ft_emp']
                 ]
                 [
-                  'General Public'
+                  'All \n' + toTitleCase data.gov_name + ' \n Residents'
                   data['median_wages_general_public']
                   data['median_benefits_general_public']
                 ]
@@ -188,7 +192,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               formatter.format(vis_data, 1);
               formatter.format(vis_data, 2);              
               options =
-                'title':'Median Total Compensation'
+                'title':'Median Total Compensation - Full Time Workers: \n Government vs. Private Sector'
                 'width': 340
                 'height': 300
                 'isStacked': 'true'
@@ -207,22 +211,14 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               vis_data = new google.visualization.DataTable()
               vis_data.addColumn 'string', 'Median Pension'
               vis_data.addColumn 'number', 'Wages'
-              vis_data.addColumn 'number', 'Bens.'
               vis_data.addRows [
                 [
                   'Pension for \n Retiree w/ 30 Years'
                   data['median_pension_30_year_retiree']
-                  0
-                ]
-                [
-                  'General Public'
-                  data['median_wages_general_public']
-                  data['median_benefits_general_public']
                 ]
               ]
               formatter = new google.visualization.NumberFormat(groupingSymbol: ',' , fractionDigits: '0')
               formatter.format(vis_data, 1);
-              formatter.format(vis_data, 2);
               options =
                 'title':'Median Total Pension'
                 'width': 340
@@ -242,11 +238,12 @@ render_tabs = (initial_layout, data, tabset, parent) ->
         h = ''
         h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
         detail_data.tabcontent += templates['tabdetail-financial-health-template'](content: h)
+        #public safety pie
         if not plot_handles['public-safety-pie']            
             drawChart = () -> 
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
-              vis_data.addColumn 'string', 'Public safety expense'
+              vis_data.addColumn 'string', 'Public Safety Expense'
               vis_data.addColumn 'number', 'Total'
               vis_data.addRows [
                 [
@@ -274,6 +271,70 @@ render_tabs = (initial_layout, data, tabset, parent) ->
           'callback' : drawChart()
           'packages' :'corechart'
           plot_handles['public-safety-pie'] ='public-safety-pie'
+        #fin-health-revenue graph
+        if not plot_handles['fin-health-revenue-graph']   
+          drawChart = () -> 
+            setTimeout ( ->
+              vis_data = new google.visualization.DataTable()
+              vis_data.addColumn 'string', 'Per Capita'
+              vis_data.addColumn 'number', 'Rev.'
+              vis_data.addRows [
+                [
+                  'Total Revenue \n Per Capita'
+                  data['total_revenue_per_capita']
+                ]
+                [
+                  'Median Total Revenue Per \n Capita For All Cities'
+                  420
+                ]
+              ]
+              options =
+                'title':'Total Revenue'
+                'width': 340
+                'height': 300
+                'isStacked': 'true'
+                'colors': ['#005ce6', '#009933']
+                'chartArea.width': '50%'
+              chart = new google.visualization.ColumnChart document.getElementById 'fin-health-revenue-graph' 
+              chart.draw vis_data, options
+              return
+            ), 1000
+          google.load 'visualization', '1.0',
+          'callback' : drawChart()
+          'packages' :'corechart'
+          plot_handles['fin-health-revenue-graph'] ='fin-health-revenue-graph'
+        #fin-health-expenditures-graph
+        if not plot_handles['fin-health-expenditures-graph']   
+          drawChart = () -> 
+            setTimeout ( ->
+              vis_data = new google.visualization.DataTable()
+              vis_data.addColumn 'string', 'Per Capita'
+              vis_data.addColumn 'number', 'Exp.'
+              vis_data.addRows [
+                [
+                  'Total Expenditures \n Per Capita'
+                  data['total_expenditures_per_capita']
+                ]
+                [
+                  'Median Total \n Expenditures Per Capita \n For All Cities'
+                  420
+                ]
+              ]
+              options =
+                'title':'Total Expenditures'
+                'width': 340
+                'height': 300
+                'isStacked': 'true'
+                'colors': ['#005ce6', '#009933']
+                'chartArea.width': '50%'
+              chart = new google.visualization.ColumnChart document.getElementById 'fin-health-expenditures-graph' 
+              chart.draw vis_data, options
+              return
+            ), 1000
+          google.load 'visualization', '1.0',
+          'callback' : drawChart()
+          'packages' :'corechart'
+          plot_handles['fin-health-expenditures-graph'] ='fin-health-expenditures-graph'        
       when 'Financial Statements'
         if data.financial_statements
           h = ''
@@ -281,6 +342,38 @@ render_tabs = (initial_layout, data, tabset, parent) ->
           h += render_financial_fields data.financial_statements, templates['tabdetail-finstatement-template']
           detail_data.tabcontent += templates['tabdetail-financial-statements-template'](content: h)
           #tabdetail-financial-statements-template
+          if not plot_handles['total-expenditures-pie']            
+            drawChart = () -> 
+            setTimeout ( ->
+              vis_data = new google.visualization.DataTable()
+              vis_data.addColumn 'string', 'Total Gov. Expenditures'
+              vis_data.addColumn 'number', 'Total'
+              
+              rows = []
+              for item in data.financial_statements 
+                if (item.category_name is "Expenditures") and (item.caption isnt "Total Expenditures")
+                  
+                  r = [
+                    item.caption
+                    parseInt item.totalfunds
+                  ]
+                  rows.push(r)
+
+              vis_data.addRows rows
+              options =
+                'title':'Total Expenditures'
+                'width': 400
+                'height': 350
+                'pieStartAngle': 20
+                #'is3D' : 'true'
+              chart = new google.visualization.PieChart document.getElementById 'total-expenditures-pie' 
+              chart.draw vis_data, options
+              return
+            ), 1000
+          google.load 'visualization', '1.0',
+          'callback' : drawChart()
+          'packages' :'corechart'
+          plot_handles['total-expenditures-pie'] ='total-expenditures-pie'
       else
         detail_data.tabcontent += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
     
