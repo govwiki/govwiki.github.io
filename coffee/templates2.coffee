@@ -104,23 +104,27 @@ render_financial_fields = (data,template)->
       else 
         h += '</br>'
         h += template(name: "<b>" + category + "</b>", genfund: '', otherfunds: '', totalfunds: '')
+
+    fields_with_dollar_sign = ['Taxes', 'Capital outlay', 'Total Revenues', 'Total Expenditures', 'Surplus / (Deficit)']
     if field.caption == 'General Fund Balance' or field.caption == 'Long Term Debt'
-      h += template(name: field.caption, genfund: currency(field.genfund, mask))
-    else 
+      h += template(name: field.caption, genfund: currency(field.genfund, mask, '$'))
+    else if field.caption in fields_with_dollar_sign
+      h += template(name: field.caption, genfund: currency(field.genfund, mask, '$'), otherfunds: currency(field.otherfunds, mask, '$'), totalfunds: currency(field.totalfunds, mask, '$'))
+    else
       h += template(name: field.caption, genfund: currency(field.genfund, mask), otherfunds: currency(field.otherfunds, mask), totalfunds: currency(field.totalfunds, mask))
   return h
 
 under = (s) -> s.replace(/[\s\+\-]/g, '_')
 
-currency = (n, mask) ->
+currency = (n, mask, sign = '') ->
   n = numeral(n)
   if n < 0
     s = n.format(mask).toString()
     s = s.replace(/-/g, '')
-    return "($#{s})"
+    return "(#{sign}#{s})"
 
   n = n.format(mask)
-  return "$#{n}"
+  return "#{sign}#{n}"
 
 render_tabs = (initial_layout, data, tabset, parent) ->
   #layout = add_other_tab_to_layout initial_layout, data
