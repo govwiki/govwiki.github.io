@@ -146,7 +146,7 @@
 }
 #govmap {
   min-height: 610px;
-  width: 100%;
+  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
 }
