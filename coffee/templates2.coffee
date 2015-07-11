@@ -12,6 +12,7 @@
 
 # LOAD FIELD NAMES 
 fieldNames = {}
+fieldNamesHelp = {}
 
 
 render_field_value = (n,mask,data) ->
@@ -27,11 +28,14 @@ render_field_value = (n,mask,data) ->
     else 
       if v.length > 20 and
       n == "open_enrollment_schools"
-      then v = v.substring(0, 19) + "<div style='display:inline;color:#074d71'  data-trigger='click' class='media-tooltip' data-toggle='tooltip' title='#{v}'>&hellip;</div>"
+      then v = v.substring(0, 19) + "<div style='display:inline;color:#074d71'  title='#{v}'>&hellip;</div>"
       else
         return v
 
 
+render_field_name_help = (fName) ->
+  #if fieldNamesHelp[fName]
+    return fieldNamesHelp[fName]
 
 render_field_name = (fName) ->
   if fieldNames[fName]?
@@ -54,7 +58,7 @@ render_field = (fName,data)->
     return '' unless fValue = data[fName]
     """
     <div>
-        <span class='f-nam'>#{render_field_name fName}</span>
+        <span class='f-nam'>#{render_field_name fName}<div></span>
         <span class='f-val'>#{render_field_value(fName,data)}</span>
     </div>
     """
@@ -79,14 +83,15 @@ render_fields = (fields,data,template)->
         fValue = render_field_value field.name, field.mask, data
         if ('' != fValue)
           fName = render_field_name field.name
-        if (field.name == 'number_of_full_time_employees')
-          fName = fName+'<show help>'
+          fNameHelp = render_field_name_help field.name
+       
     else
       fValue = render_field_value field, '', data
       if ('' != fValue)
         fName = render_field_name field
+        fNameHelp = render_field_name_help fName
     if ('' != fValue)
-      h += template(name: fName, value: fValue)
+      h += template(name: fName, value: fValue, help: fNameHelp)
   return h
 
 render_financial_fields = (data,template)->
@@ -452,6 +457,7 @@ convert_fusion_template=(templ) ->
     fieldname = val 'field_name', row, col_hash
     if not fieldname then fieldname = "_" + String ++placeholder_count
     fieldNames[val 'field_name', row, col_hash]=val 'description', row, col_hash
+    fieldNamesHelp[fieldname] = val 'help_text', row, col_hash
     if category
       tab_hash[category]?=[]
       tab_hash[category].push n: val('n', row, col_hash), name: fieldname, mask: val('mask', row, col_hash)

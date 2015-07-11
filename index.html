@@ -205,7 +205,11 @@
 
 <script id="tabdetail-namevalue-template" type="text/x-handlebars-template">
 	<div>
-		<span class="f-nam">{{name}}</span>
+		<span class="f-nam">{{name}}
+			{{#if help}}
+			<div style='display:inline;color:#074d71'   title='{{help}}'><img src="img/678110-sign-info-16.png" /></div>
+			{{/if}}
+		</span>
 		<span class="f-val">{{{value}}}</span>
 	</div>
 </script>
