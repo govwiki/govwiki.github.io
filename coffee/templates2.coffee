@@ -174,7 +174,8 @@ render_tabs = (initial_layout, data, tabset, parent) ->
             email: if null != official.email_address then "Email: " + official.email_address
             telephonenumber: if null != official.telephone_number and undefined != official.telephone_number then "Telephone Number: " + official.telephone_number
             termexpires: if null != official.term_expires then "Term Expires: " + official.term_expires 
-          official_data.image = '<img src="'+official.photo_url+'" class="portrait" alt="" />' if '' != official.photo_url or official.photo_url != null
+
+          if '' != official.photo_url and official.photo_url != null then official_data.image =  '<img src="'+official.photo_url+'" class="portrait" alt="" />' 
           detail_data.tabcontent += templates['tabdetail-official-template'](official_data)
       when 'Employee Compensation'
         h = ''
