@@ -77,6 +77,40 @@ router.get ':id', (req) ->
     return
 
 
+get_counties = (callback) ->
+  $.ajax
+    url: 'data/county_geography_ca.json'
+    dataType: 'json'
+    cache: true
+    success: (countiesJSON) ->
+      callback countiesJSON
+
+draw_polygons = (countiesJSON) ->
+  for county in countiesJSON.features
+    govmap.map.drawPolygon({
+      paths: county.geometry.coordinates
+      useGeoJSON: true
+      strokeColor: '#FF0000'
+      strokeOpacity: 0.8
+      strokeWeight: 2
+      fillColor: '#FF0000'
+      fillOpacity: 0.25
+      countyId: county.properties._id
+      mouseover: ->
+        this.setOptions({fillColor: "#00FF00"})
+      mouseout: ->
+        this.setOptions({fillColor: "#FF0000"})
+      click: ->
+        router.navigate this.countyId
+    })
+
+    govmap.map.createMarker({
+      lat: county.properties.center[0]
+      lat: county.properties.center[1]
+    })
+
+get_counties draw_polygons
+
 
 
 window.remember_tab =(name)-> active_tab = name

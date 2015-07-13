@@ -14,7 +14,6 @@ map = new GMaps
   bounds_changed: ->
     on_bounds_changed_later 200
 
-
 on_bounds_changed_later  = (msec)  ->
   clearTimeout bounds_timeout
   bounds_timeout = setTimeout on_bounds_changed, msec
@@ -196,3 +195,4 @@ module.exports =
   gocode_addr: geocode_addr
   on_bounds_changed: on_bounds_changed
   on_bounds_changed_later: on_bounds_changed_later
+  map: map
