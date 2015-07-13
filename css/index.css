@@ -216,3 +216,8 @@ a {
   opacity: 1;
   filter: alpha 90;
 }
+/*currency sign styles*/
+.currency-sign {
+  position: absolute;
+  left: 60px;
+}

@@ -10,7 +10,7 @@
 
 
 
-# LOAD FIELD NAMES 
+# LOAD FIELD NAMES
 fieldNames = {}
 fieldNamesHelp = {}
 
@@ -25,7 +25,7 @@ render_field_value = (n,mask,data) ->
   else
     if '' != mask
       return numeral(v).format(mask)
-    else 
+    else
       if v.length > 20 and
       n == "open_enrollment_schools"
       then v = v.substring(0, 19) + "<div style='display:inline;color:#074d71'  title='#{v}'>&hellip;</div>"
@@ -79,14 +79,14 @@ render_fields = (fields,data,template)->
       if field.mask == "heading"
         h += render_subheading(field.name, field.mask, i)
         fValue = ''
-      else 
+      else
         fValue = render_field_value field.name, field.mask, data
         if ('' != fValue and fValue != '0')
           fName = render_field_name field.name
           fNameHelp = render_field_name_help field.name
         else
           fValue = ''
-       
+
     else
       fValue = render_field_value field, '', data
       if ('' != fValue)
@@ -103,20 +103,20 @@ render_financial_fields = (data,template)->
   for field in data
     if category != field.category_name
       category = field.category_name
-      if category == 'Overview' 
+      if category == 'Overview'
         h += template(name: "<b>" + category + "</b>", genfund: '', otherfunds: '', totalfunds: '')
       else if category == 'Revenues'
-        h += '</br>' 
+        h += '</br>'
         h += "<b>" + template(name: category, genfund: "General Fund", otherfunds: "Other Funds", totalfunds: "Total Gov. Funds") + "</b>"
-      else 
+      else
         h += '</br>'
         h += template(name: "<b>" + category + "</b>", genfund: '', otherfunds: '', totalfunds: '')
 
     fields_with_dollar_sign = ['Taxes', 'Capital outlay', 'Total Revenues', 'Total Expenditures', 'Surplus / (Deficit)']
     if field.caption == 'General Fund Balance' or field.caption == 'Long Term Debt'
-      h += template(name: field.caption, genfund: currency(field.genfund, mask, '$'))
+      h += template(name: field.caption, genfund: currency(field.genfund, mask, '<span class="currency-sign">$</span>'))
     else if field.caption in fields_with_dollar_sign
-      h += template(name: field.caption, genfund: currency(field.genfund, mask, '$'), otherfunds: currency(field.otherfunds, mask, '$'), totalfunds: currency(field.totalfunds, mask, '$'))
+      h += template(name: field.caption, genfund: currency(field.genfund, mask, '<span class="currency-sign">$</span>'), otherfunds: currency(field.otherfunds, mask, '<span class="currency-sign">$</span>'), totalfunds: currency(field.totalfunds, mask, '<span class="currency-sign">$</span>'))
     else
       h += template(name: field.caption, genfund: currency(field.genfund, mask), otherfunds: currency(field.otherfunds, mask), totalfunds: currency(field.totalfunds, mask))
   return h
@@ -126,7 +126,7 @@ under = (s) -> s.replace(/[\s\+\-]/g, '_')
 toTitleCase = (str) ->
   str.replace /\w\S*/g, (txt) ->
     txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-    
+
 currency = (n, mask, sign = '') ->
   n = numeral(n)
   if n < 0
@@ -151,7 +151,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
     latest_audit_url: data.latest_audit_url
     tabs: []
     tabcontent: ''
-  
+
   for tab,i in layout
     layout_data.tabs.push
       tabid: under(tab.name),
@@ -173,16 +173,16 @@ render_tabs = (initial_layout, data, tabset, parent) ->
             name: if '' != official.full_name then "Name: " + official.full_name
             email: if null != official.email_address then "Email: " + official.email_address
             telephonenumber: if null != official.telephone_number and undefined != official.telephone_number then "Telephone Number: " + official.telephone_number
-            termexpires: if null != official.term_expires then "Term Expires: " + official.term_expires 
+            termexpires: if null != official.term_expires then "Term Expires: " + official.term_expires
 
-          if '' != official.photo_url and official.photo_url != null then official_data.image =  '<img src="'+official.photo_url+'" class="portrait" alt="" />' 
+          if '' != official.photo_url and official.photo_url != null then official_data.image =  '<img src="'+official.photo_url+'" class="portrait" alt="" />'
           detail_data.tabcontent += templates['tabdetail-official-template'](official_data)
       when 'Employee Compensation'
         h = ''
         h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
         detail_data.tabcontent += templates['tabdetail-employee-comp-template'](content: h)
-        if not plot_handles['median-comp-graph'] 
-          drawChart = () -> 
+        if not plot_handles['median-comp-graph']
+          drawChart = () ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
               vis_data.addColumn 'string', 'Median Compensation'
@@ -202,7 +202,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               ]
               formatter = new google.visualization.NumberFormat(groupingSymbol: ',' , fractionDigits: '0')
               formatter.format(vis_data, 1);
-              formatter.format(vis_data, 2);              
+              formatter.format(vis_data, 2);
               options =
                 'title':'Median Total Compensation - Full Time Workers: \n Government vs. Private Sector'
                 'width': 340
@@ -217,8 +217,8 @@ render_tabs = (initial_layout, data, tabset, parent) ->
           'callback' : drawChart()
           'packages' :'corechart'
           plot_handles['median-comp-graph'] ='median-comp-graph'
-        if not plot_handles['median-pension-graph']   
-          drawChart = () -> 
+        if not plot_handles['median-pension-graph']
+          drawChart = () ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
               vis_data.addColumn 'string', 'Median Pension'
@@ -238,7 +238,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 'isStacked': 'true'
                 'colors': ['#005ce6', '#009933']
                 'chartArea.width': '50%'
-              chart = new google.visualization.ColumnChart document.getElementById 'median-pension-graph' 
+              chart = new google.visualization.ColumnChart document.getElementById 'median-pension-graph'
               chart.draw vis_data, options
               return
             ), 1000
@@ -251,8 +251,8 @@ render_tabs = (initial_layout, data, tabset, parent) ->
         h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
         detail_data.tabcontent += templates['tabdetail-financial-health-template'](content: h)
         #public safety pie
-        if not plot_handles['public-safety-pie']            
-            drawChart = () -> 
+        if not plot_handles['public-safety-pie']
+            drawChart = () ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
               vis_data.addColumn 'string', 'Public Safety Expense'
@@ -261,7 +261,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 [
                   'Public Safety Expense'
                   100 - data['public_safety_exp_over_tot_gov_fund_revenue']
-                ]                
+                ]
                 [
                   'Other Governmental \n Fund Revenue'
                   data['public_safety_exp_over_tot_gov_fund_revenue']
@@ -275,7 +275,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 'colors': ['#005ce6', '#009933']
                 'slices': { 1: {offset: 0.2}}
                 'pieStartAngle': 20
-              chart = new google.visualization.PieChart document.getElementById 'public-safety-pie' 
+              chart = new google.visualization.PieChart document.getElementById 'public-safety-pie'
               chart.draw vis_data, options
               return
             ), 1000
@@ -284,8 +284,8 @@ render_tabs = (initial_layout, data, tabset, parent) ->
           'packages' :'corechart'
           plot_handles['public-safety-pie'] ='public-safety-pie'
         #fin-health-revenue graph
-        if not plot_handles['fin-health-revenue-graph']   
-          drawChart = () -> 
+        if not plot_handles['fin-health-revenue-graph']
+          drawChart = () ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
               vis_data.addColumn 'string', 'Per Capita'
@@ -307,7 +307,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 'isStacked': 'true'
                 'colors': ['#005ce6', '#009933']
                 'chartArea.width': '50%'
-              chart = new google.visualization.ColumnChart document.getElementById 'fin-health-revenue-graph' 
+              chart = new google.visualization.ColumnChart document.getElementById 'fin-health-revenue-graph'
               chart.draw vis_data, options
               return
             ), 1000
@@ -316,8 +316,8 @@ render_tabs = (initial_layout, data, tabset, parent) ->
           'packages' :'corechart'
           plot_handles['fin-health-revenue-graph'] ='fin-health-revenue-graph'
         #fin-health-expenditures-graph
-        if not plot_handles['fin-health-expenditures-graph']   
-          drawChart = () -> 
+        if not plot_handles['fin-health-expenditures-graph']
+          drawChart = () ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
               vis_data.addColumn 'string', 'Per Capita'
@@ -339,14 +339,14 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 'isStacked': 'true'
                 'colors': ['#005ce6', '#009933']
                 'chartArea.width': '50%'
-              chart = new google.visualization.ColumnChart document.getElementById 'fin-health-expenditures-graph' 
+              chart = new google.visualization.ColumnChart document.getElementById 'fin-health-expenditures-graph'
               chart.draw vis_data, options
               return
             ), 1000
           google.load 'visualization', '1.0',
           'callback' : drawChart()
           'packages' :'corechart'
-          plot_handles['fin-health-expenditures-graph'] ='fin-health-expenditures-graph'        
+          plot_handles['fin-health-expenditures-graph'] ='fin-health-expenditures-graph'
       when 'Financial Statements'
         if data.financial_statements
           h = ''
@@ -354,17 +354,17 @@ render_tabs = (initial_layout, data, tabset, parent) ->
           h += render_financial_fields data.financial_statements, templates['tabdetail-finstatement-template']
           detail_data.tabcontent += templates['tabdetail-financial-statements-template'](content: h)
           #tabdetail-financial-statements-template
-          if not plot_handles['total-expenditures-pie']            
-            drawChart = () -> 
+          if not plot_handles['total-expenditures-pie']
+            drawChart = () ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
               vis_data.addColumn 'string', 'Total Gov. Expenditures'
               vis_data.addColumn 'number', 'Total'
-              
+
               rows = []
-              for item in data.financial_statements 
+              for item in data.financial_statements
                 if (item.category_name is "Expenditures") and (item.caption isnt "Total Expenditures")
-                  
+
                   r = [
                     item.caption
                     parseInt item.totalfunds
@@ -378,7 +378,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 'height': 350
                 'pieStartAngle': 20
                 #'is3D' : 'true'
-              chart = new google.visualization.PieChart document.getElementById 'total-expenditures-pie' 
+              chart = new google.visualization.PieChart document.getElementById 'total-expenditures-pie'
               chart.draw vis_data, options
               return
             ), 1000
@@ -388,7 +388,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
           plot_handles['total-expenditures-pie'] ='total-expenditures-pie'
       else
         detail_data.tabcontent += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
-    
+
     layout_data.tabcontent += templates['tabdetail-template'](detail_data)
   return templates['tabpanel-template'](layout_data)
 
@@ -425,7 +425,7 @@ add_other_tab_to_layout = (layout=[], data) ->
   return l
 
 
-# converts tab template described in google fusion table to 
+# converts tab template described in google fusion table to
 # tab template
 convert_fusion_template=(templ) ->
   tab_hash={}
@@ -435,11 +435,11 @@ convert_fusion_template=(templ) ->
     col_hash ={}
     col_hash[col_name]=i for col_name,i in templ.columns
     return col_hash
-  
+
   # returns field value by its name, array of fields, and hash of fields
   val = (field_name, fields, col_hash) ->
     fields[col_hash[field_name]]
-  
+
   # converts hash to an array template
   hash_to_array =(hash) ->
     a = []
@@ -450,10 +450,10 @@ convert_fusion_template=(templ) ->
       a.push tab
     return a
 
-    
+
   col_hash = get_col_hash(templ.col_hash)
   placeholder_count = 0
-  
+
   for row,i in templ.rows
     category = val 'general_category', row, col_hash
     #tab_hash[category]=[] unless tab_hash[category]
@@ -557,7 +557,7 @@ class Templates2
 
   get_html: (ind, data) ->
     if (ind is -1) then return  ""
-    
+
     if @list[ind]
       return @list[ind].render(data)
     else
