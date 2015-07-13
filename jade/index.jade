@@ -58,22 +58,20 @@ html(lang='en')
 
 
 
-      // MAP      
+      // MAP
       .row(style="margin-bottom:100px;")
-          //.col-lg-6(style="border:0px solid silver;padding:0")
-          #maparea
-            #govmap
-            // Controls to show results of geocoding
-            //div
-              .input-group
-                span.input-group-addon
-                  strong FIND:
-                input#govaddress.form-control.input-sm ss
-                .input-group-btn
-                  button.glyphicon.glyphicon-search.btn.btn-default.input-sm(onclick="geocode_addr('#govaddress')")
-              .govmap-found
-    
-    
+          .col-sm-6(style="border:0px solid silver;padding:0")
+            #maparea
+              #govmap
+              // Controls to show results of geocoding
+              //div
+                .input-group
+                  span.input-group-addon
+                    strong FIND:
+                  input#govaddress.form-control.input-sm ss
+                  .input-group-btn
+                    button.glyphicon.glyphicon-search.btn.btn-default.input-sm(onclick="geocode_addr('#govaddress')")
+                .govmap-found
     // DATA
     #dataContainer.container
       //p#pBackToSearch.text-center
