@@ -337,11 +337,13 @@ convert_fusion_template=(templ) ->
     if not fieldname then fieldname = "_" + String ++placeholder_count
     fieldNames[val 'field_name', row, col_hash]=val 'description', row, col_hash
     rank = val 'rank', row, col_hash
-    if rank == 'x'
-      console.log val 'field_name', row, col_hash
+    
     if category
       tab_hash[category]?=[]
       tab_hash[category].push n: val('n', row, col_hash), name: fieldname, mask: val('mask', row, col_hash)
+      if rank == 'x'
+        console.log val 'field_name', row, col_hash
+        tab_hash[category].push n: val('n', row, col_hash), name: fieldname, mask: val('mask', row, 'rank_value')
 
   categories = Object.keys(tab_hash)
   categories_sort = {}
