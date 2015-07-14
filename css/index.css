@@ -216,3 +216,12 @@ a {
   opacity: 1;
   filter: alpha 90;
 }
+.truncate {
+  width: 192px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.f-nam-margin {
+  margin-top: -10px;
+}
