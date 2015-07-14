@@ -14,6 +14,12 @@ map = new GMaps
   bounds_changed: ->
     on_bounds_changed_later 200
 
+map.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('legend'))
+
+$ ->
+  $('#legend li').on 'click', ->
+    $(this).toggleClass('active')
+
 on_bounds_changed_later  = (msec)  ->
   clearTimeout bounds_timeout
   bounds_timeout = setTimeout on_bounds_changed, msec

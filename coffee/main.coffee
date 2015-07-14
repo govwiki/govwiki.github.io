@@ -106,8 +106,6 @@ draw_polygons = (countiesJSON) ->
 
 get_counties draw_polygons
 
-
-
 window.remember_tab =(name)-> active_tab = name
 
 #window.geocode_addr = (input_selector)-> govmap.gocode_addr $(input_selector).val()
