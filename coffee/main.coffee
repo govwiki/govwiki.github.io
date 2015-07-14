@@ -104,11 +104,6 @@ draw_polygons = (countiesJSON) ->
         router.navigate this.countyId
     })
 
-    govmap.map.createMarker({
-      lat: county.properties.center[0]
-      lat: county.properties.center[1]
-    })
-
 get_counties draw_polygons
 
 
