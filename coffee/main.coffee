@@ -16,6 +16,7 @@ govmap      = require './govmap.coffee'
 window.GOVWIKI =
   state_filter : ''
   gov_type_filter : ''
+  gov_type_filter_2 : ['City', 'School District', 'Special District']
 
   show_search_page: () ->
     $(window).scrollTo('0px',10)

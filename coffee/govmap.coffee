@@ -19,6 +19,18 @@ map.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElement
 $ ->
   $('#legend li').on 'click', ->
     $(this).toggleClass('active')
+    hidden_field = $(this).find('input')
+    value = hidden_field.val()
+    hidden_field.val(if value == '1' then '0' else '1')
+    rebuild_filter()
+
+rebuild_filter = ->
+  hard_params = ['City', 'School District', 'Special District']
+  GOVWIKI.gov_type_filter_2 = []
+  $('.type_filter').each (index, element) ->
+    if $(element).attr('name') in hard_params and $(element).val() == '1'
+      GOVWIKI.gov_type_filter_2.push $(element).attr('name')
+  on_bounds_changed_later 350
 
 on_bounds_changed_later  = (msec)  ->
   clearTimeout bounds_timeout
@@ -37,6 +49,7 @@ on_bounds_changed =(e) ->
   sw_lng=sw.lng()
   st = GOVWIKI.state_filter
   ty = GOVWIKI.gov_type_filter
+  gtf = GOVWIKI.gov_type_filter_2
 
   ###
   # Build the query.
@@ -60,6 +73,19 @@ on_bounds_changed =(e) ->
   q2+=""" AND state="#{st}" """ if st
   q2+=""" AND gov_type="#{ty}" """ if ty
 
+  if gtf.length > 0
+    first = true
+    additional_filter = """ AND ("""
+    for gov_type in gtf
+      if not first
+        additional_filter += """ OR"""
+      additional_filter += """ alt_type="#{gov_type}" """
+      first = false
+    additional_filter += """)"""
+
+    q2 += additional_filter
+  else
+    q2 += """ AND alt_type!="City" AND alt_type!="School District" AND alt_type!="Special District" """
 
   get_records2 q2, 200,  (data) ->
     #console.log "length=#{data.length}"
@@ -67,8 +93,6 @@ on_bounds_changed =(e) ->
     map.removeMarkers()
     add_marker(rec) for rec in data.record
     return
-
-
 
 get_icon =(gov_type) ->
   
