@@ -30,6 +30,9 @@ render_field_value = (n,mask,data) ->
       n == "open_enrollment_schools"
       then v = v.substring(0, 19) + "<div style='display:inline;color:#074d71'  title='#{v}'>&hellip;</div>"
       else
+        if v.length > 21
+        then v = v.substring(0, 21) 
+        else
         return v
 
 
