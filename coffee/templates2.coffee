@@ -30,6 +30,9 @@ render_field_value = (n,mask,data) ->
       n == "open_enrollment_schools"
       then v = v.substring(0, 19) + "<div style='display:inline;color:#074d71'  title='#{v}'>&hellip;</div>"
       else
+        if v.length > 21
+        then v = v.substring(0, 21) 
+        else
         return v
 
 
@@ -50,7 +53,7 @@ render_field = (fName,data)->
   if "_" == substr fName, 0, 1
     """
     <div>
-        <span class='f-nam'>#{render_field_name fName}</span>
+        <span class='f-nam' >#{render_field_name fName}</span>
         <span class='f-val'>&nbsp;</span>
     </div>
     """
@@ -58,7 +61,7 @@ render_field = (fName,data)->
     return '' unless fValue = data[fName]
     """
     <div>
-        <span class='f-nam'>#{render_field_name fName}<div></span>
+        <span class='f-nam'  >#{render_field_name fName}<div></span>
         <span class='f-val'>#{render_field_value(fName,data)}</span>
     </div>
     """

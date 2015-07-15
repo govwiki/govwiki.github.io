@@ -14,6 +14,11 @@ map = new GMaps
   bounds_changed: ->
     on_bounds_changed_later 200
 
+map.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('legend'))
+
+$ ->
+  $('#legend li').on 'click', ->
+    $(this).toggleClass('active')
 
 on_bounds_changed_later  = (msec)  ->
   clearTimeout bounds_timeout
@@ -196,3 +201,4 @@ module.exports =
   gocode_addr: geocode_addr
   on_bounds_changed: on_bounds_changed
   on_bounds_changed_later: on_bounds_changed_later
+  map: map

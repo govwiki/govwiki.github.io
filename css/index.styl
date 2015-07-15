@@ -165,8 +165,8 @@ LGR = #DDD
 #govmap
   //height:550px
   min-height: 610px;
-  max-width:600px
-  //width:100%
+  //max-width:600px
+  width:100%
   margin-left:auto
   margin-right:auto
 
@@ -245,6 +245,36 @@ h3,a
     opacity:1.0;
     filter: alpha opacity=90
     }
+.truncate {
+  width: 192px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.f-nam-margin{
+  margin-top: -10px;
+}
+
+#legend
+  margin-right 7px
+
+#legend > .panel-heading
+  padding 8px
+
+#legend > ul > li.list-group-item
+  padding 8px
+  cursor pointer
+  &:not(.active)
+    &:hover
+      background-color #EEE
+
+#legend > ul > li.active
+  color #3c763d
+  background-color #dff0d8
+  border-color #d6e9c6
+  &:hover
+    background-color #d0e9c6
 
 
 
