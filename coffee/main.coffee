@@ -97,10 +97,26 @@ draw_polygons = (countiesJSON) ->
       fillColor: '#FF0000'
       fillOpacity: 0.15
       countyId: county.properties._id
+      marker: new MarkerWithLabel({
+        position: new google.maps.LatLng(0,0),
+        draggable: false,
+        raiseOnDrag: false,
+        map: govmap.map.map,
+        labelContent: county.properties.name,
+        labelAnchor: new google.maps.Point(-15, 25),
+        labelClass: "label-tooltip",
+        labelStyle: {opacity: 1.0},
+        icon: "http://placehold.it/1x1",
+        visible: false
+      })
       mouseover: ->
         this.setOptions({fillColor: "#00FF00"})
+      mousemove: (event) ->
+        this.marker.setPosition(event.latLng)
+        this.marker.setVisible(true)
       mouseout: ->
         this.setOptions({fillColor: "#FF0000"})
+        this.marker.setVisible(false)
       click: ->
         router.navigate this.countyId
     })

@@ -255,3 +255,11 @@ a {
   position: absolute;
   left: 60px;
 }
+.label-tooltip {
+  max-width: 200px;
+  padding: 3px 8px;
+  color: #fff;
+  text-align: center;
+  background-color: #000;
+  border-radius: 4px;
+}
