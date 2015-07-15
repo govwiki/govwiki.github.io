@@ -263,3 +263,71 @@ a {
   background-color: #000;
   border-radius: 4px;
 }
+/* second footer style */
+#socket {
+  font-size: 11px;
+  margin-top: -1px;
+  z-index: 1;
+}
+#socket .container {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+#socket .copyright {
+  line-height: 1.5em;
+  float: left;
+}
+#socket .social_bookmarks {
+  float: right;
+  margin: -10px 0 0 30px;
+  position: relative;
+}
+#top .social_bookmarks {
+  height: 30px;
+  z-index: 150;
+  -webkit-backface-visibility: hidden;
+}
+#socket .sub_menu_socket {
+  float: right;
+  margin: 0;
+}
+.socket_color {
+  background-color: #003958;
+  color: #eee;
+}
+.socket_color a {
+  color: #fff;
+}
+.social_bookmarks li {
+  background: transparent;
+}
+#socket .social_bookmarks li {
+  border-radius: 300px;
+  border: none;
+  overflow: hidden;
+  top: 5px;
+  position: relative;
+}
+#top .social_bookmarks li {
+  height: 100%;
+  float: left;
+  padding: 0;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  border-right-style: solid;
+  border-right-width: 1px;
+  display: block;
+  width: 30px;
+}
+#socket .sub_menu_socket div {
+  overflow: hidden;
+}
+#socket .menu {
+  margin-top: 6px;
+}
+#socket .sub_menu_socket li {
+  float: left;
+  display: block;
+  padding: 0 10px;
+  line-height: 10px;
+}
