@@ -216,6 +216,40 @@ a {
   opacity: 1;
   filter: alpha 90;
 }
+.truncate {
+  width: 192px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.f-nam-margin {
+  margin-top: -10px;
+}
+#legend {
+  margin-right: 7px;
+}
+#legend > .panel-heading {
+  padding: 8px;
+  min-width: 111px;
+}
+#legend > ul > li.list-group-item {
+  padding: 8px;
+  cursor: pointer;
+}
+#legend > ul > li.list-group-item:not(.active):hover {
+  background-color: #eee;
+}
+#legend > ul > li.list-group-item:not(.active) span.glyphicon-ok {
+  display: none;
+}
+#legend > ul > li.active {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+#legend > ul > li.active:hover {
+  background-color: #d0e9c6;
+}
 /*currency sign styles*/
 .currency-sign {
   position: absolute;
