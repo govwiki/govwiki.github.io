@@ -68,7 +68,8 @@ html(lang='en')
                   .input-group-btn
                     button.glyphicon.glyphicon-search.btn.btn-default.input-sm(onclick="geocode_addr('#govaddress')")
                 .govmap-found
-      include legend.jade
+      div(style="display:none;")
+        include legend.jade
     // DATA
     #dataContainer.container
       //p#pBackToSearch.text-center
