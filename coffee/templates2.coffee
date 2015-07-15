@@ -185,6 +185,15 @@ render_tabs = (initial_layout, data, tabset, parent) ->
         h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
         detail_data.tabcontent += templates['tabdetail-employee-comp-template'](content: h)
         if not plot_handles['median-comp-graph']
+          graph = true
+          if data['median_salary_per_full_time_emp'] == 0 
+            graph = false
+          if data['median_benefits_per_ft_emp'] == 0
+            graph = false
+          if data['median_wages_general_public'] == 0
+            graph = false
+          if data['median_benefits_general_public'] == 0
+            graph = false
           drawChart = () ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
@@ -216,11 +225,15 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               chart.draw vis_data, options
               return
             ), 1000
-          google.load 'visualization', '1.0',
-          'callback' : drawChart()
-          'packages' :'corechart'
+          if graph 
+            google.load 'visualization', '1.0',
+            'callback' : drawChart()
+            'packages' :'corechart'
           plot_handles['median-comp-graph'] ='median-comp-graph'
         if not plot_handles['median-pension-graph']
+          graph = true
+          if data['median_pension_30_year_retiree'] == 0
+            graph = false
           drawChart = () ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
@@ -241,8 +254,9 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 'isStacked': 'true'
                 'colors': ['#005ce6', '#009933']
                 'chartArea.width': '50%'
-              chart = new google.visualization.ColumnChart document.getElementById 'median-pension-graph'
-              chart.draw vis_data, options
+              if graph               
+                chart = new google.visualization.ColumnChart document.getElementById 'median-pension-graph'
+                chart.draw vis_data, options
               return
             ), 1000
           google.load 'visualization', '1.0',
@@ -255,7 +269,10 @@ render_tabs = (initial_layout, data, tabset, parent) ->
         detail_data.tabcontent += templates['tabdetail-financial-health-template'](content: h)
         #public safety pie
         if not plot_handles['public-safety-pie']
-            drawChart = () ->
+          graph = true
+          if data['public_safety_exp_over_tot_gov_fund_revenue'] == 0
+            graph = false
+          drawChart = () ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
               vis_data.addColumn 'string', 'Public Safety Expense'
@@ -282,12 +299,16 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               chart.draw vis_data, options
               return
             ), 1000
-          google.load 'visualization', '1.0',
-          'callback' : drawChart()
-          'packages' :'corechart'
+          if graph
+            google.load 'visualization', '1.0',
+            'callback' : drawChart()
+            'packages' :'corechart'
           plot_handles['public-safety-pie'] ='public-safety-pie'
         #fin-health-revenue graph
         if not plot_handles['fin-health-revenue-graph']
+          graph = true
+          if data['total_revenue_per_capita'] == 0
+            graph = false
           drawChart = () ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
@@ -314,12 +335,17 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               chart.draw vis_data, options
               return
             ), 1000
-          google.load 'visualization', '1.0',
-          'callback' : drawChart()
-          'packages' :'corechart'
+          if graph  
+            google.load 'visualization', '1.0',
+            'callback' : drawChart()
+            'packages' :'corechart'
           plot_handles['fin-health-revenue-graph'] ='fin-health-revenue-graph'
         #fin-health-expenditures-graph
         if not plot_handles['fin-health-expenditures-graph']
+          console.log data['total_expenditures_per_capita']
+          graph = true
+          if data['total_expenditures_per_capita'] == 0
+            graph = false
           drawChart = () ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
@@ -341,9 +367,10 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 'height': 300
                 'isStacked': 'true'
                 'colors': ['#005ce6', '#009933']
-                'chartArea.width': '50%'
-              chart = new google.visualization.ColumnChart document.getElementById 'fin-health-expenditures-graph'
-              chart.draw vis_data, options
+                'chartArea.width': '50%'              
+              if graph 
+                chart = new google.visualization.ColumnChart document.getElementById 'fin-health-expenditures-graph'
+                chart.draw vis_data, options
               return
             ), 1000
           google.load 'visualization', '1.0',
