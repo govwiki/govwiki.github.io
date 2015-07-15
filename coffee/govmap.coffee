@@ -68,7 +68,7 @@ on_bounds_changed =(e) ->
   ###
 
   # Build the query 2.
-  q2=""" latitude<#{ne_lat} AND latitude>#{sw_lat} AND longitude<#{ne_lng} AND longitude>#{sw_lng} """
+  q2=""" latitude<#{ne_lat} AND latitude>#{sw_lat} AND longitude<#{ne_lng} AND longitude>#{sw_lng} AND alt_type!="County" """
   # Add filters if they exist
   q2+=""" AND state="#{st}" """ if st
   q2+=""" AND gov_type="#{ty}" """ if ty
