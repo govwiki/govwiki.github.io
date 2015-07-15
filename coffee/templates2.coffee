@@ -342,7 +342,6 @@ render_tabs = (initial_layout, data, tabset, parent) ->
           plot_handles['fin-health-revenue-graph'] ='fin-health-revenue-graph'
         #fin-health-expenditures-graph
         if not plot_handles['fin-health-expenditures-graph']
-          console.log data['total_expenditures_per_capita']
           graph = true
           if data['total_expenditures_per_capita'] == 0
             graph = false
@@ -385,6 +384,9 @@ render_tabs = (initial_layout, data, tabset, parent) ->
           detail_data.tabcontent += templates['tabdetail-financial-statements-template'](content: h)
           #tabdetail-financial-statements-template
           if not plot_handles['total-expenditures-pie']
+            graph = true
+            if data.financial_statements.length == 0
+              graph = false
             drawChart = () ->
             setTimeout ( ->
               vis_data = new google.visualization.DataTable()
@@ -408,13 +410,15 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 'height': 350
                 'pieStartAngle': 20
                 #'is3D' : 'true'
-              chart = new google.visualization.PieChart document.getElementById 'total-expenditures-pie'
-              chart.draw vis_data, options
+              if graph 
+                chart = new google.visualization.PieChart document.getElementById 'total-expenditures-pie'
+                chart.draw vis_data, options
               return
             ), 1000
-          google.load 'visualization', '1.0',
-          'callback' : drawChart()
-          'packages' :'corechart'
+          if graph 
+            google.load 'visualization', '1.0',
+            'callback' : drawChart()
+            'packages' :'corechart'
           plot_handles['total-expenditures-pie'] ='total-expenditures-pie'
       else
         detail_data.tabcontent += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
