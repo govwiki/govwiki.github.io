@@ -24,7 +24,7 @@ window.GOVWIKI =
     $('#searchIcon').hide()
     $('#searchContainer').fadeIn(300)
     focus_search_field 500
-    
+
   show_data_page: () ->
     $(window).scrollTo('0px',10)
     $('#searchIcon').show()
@@ -39,13 +39,13 @@ window.GOVWIKI =
 gov_selector = new GovSelector '.typeahead', 'data/h_types_ca.json', 7
 #gov_selector = new GovSelector '.typeahead', 'http://46.101.3.79/rest/db/govs?filter=state=%22CA%22&app_name=govwiki&fields=_id,gov_name,gov_type,state&limit=5000', 7
 templates = new Templates2
-active_tab="" 
+active_tab=""
 
 #"
 
 # fire client-side URL routing
 router = new Grapnel
-router.get ':id', (req) -> 
+router.get ':id', (req) ->
   id = req.params.id
   console.log "ROUTER ID=#{id}"
   get_elected_officials = (gov_id, limit, onsuccess) ->
@@ -134,6 +134,35 @@ $(document).on 'click', '#fieldTabs a', (e) ->
   $($(e.currentTarget).attr('href')).addClass("active")
   templates.activate 0, active_tab
 
+    if active_tab == 'Financial Statements'
+
+        finValWidthMax1 = 0
+        finValWidthMax2 = 0
+        finValWidthMax3 = 0
+
+        $('[data-col="1"]').find('.fin-val').each () ->
+            thisFinValWidth = $(this).width()
+
+            if thisFinValWidth > finValWidthMax1
+                finValWidthMax1 = thisFinValWidth
+
+        $('[data-col="2"]').find('.fin-val').each () ->
+            thisFinValWidth = $(this).width()
+
+            if thisFinValWidth > finValWidthMax2
+                finValWidthMax2 = thisFinValWidth
+
+        $('[data-col="3"]').find('.fin-val').each () ->
+            thisFinValWidth = $(this).width()
+
+            if thisFinValWidth > finValWidthMax3
+                finValWidthMax3 = thisFinValWidth
+
+        $('[data-col="1"] .currency-sign').css('right', finValWidthMax1 + 27)
+        $('[data-col="2"] .currency-sign').css('right', finValWidthMax2 + 27)
+        $('[data-col="3"] .currency-sign').css('right', finValWidthMax3 + 27)
+
+
 $(document).tooltip({selector: "[class='media-tooltip']",trigger:'click'})
 
 activate_tab =() ->
@@ -221,7 +250,7 @@ get_financial_statements = (gov_id, onsuccess) ->
     success: onsuccess
     error:(e) ->
       console.log e
-  
+
 
 window.GOVWIKI.show_record =(rec)=>
   $('#details').html templates.get_html(0, rec)
@@ -270,7 +299,7 @@ build_select_element = (container, text, arr, where_to_store_value ) ->
   s += "</select>"
   select = $(s)
   $(container).append(select)
-  
+
   # set default 'CA'
   if text is 'State..'
     select.val 'CA'
@@ -303,7 +332,7 @@ livereload = (port) ->
   $.getScript url + ":" + port, =>
     $('body').append """
     <div style='position:absolute;z-index:1000;
-    width:100%; top:0;color:red; text-align: center; 
+    width:100%; top:0;color:red; text-align: center;
     padding:1px;font-size:10px;line-height:1'>live</div>
     """
 
@@ -311,7 +340,7 @@ focus_search_field = (msec) ->
   setTimeout (-> $('#myinput').focus()) ,msec
 
 
-  
+
 # quick and dirty fix for back button in browser
 window.onhashchange = (e) ->
   h=window.location.hash
@@ -337,7 +366,7 @@ $('#btnBackToSearch').click (e)->
 
 #focus_search_field 500
 
-  
+
 
 livereload "9090"
 

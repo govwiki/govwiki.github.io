@@ -40,7 +40,7 @@ render_field_value = (n,mask,data) ->
       then v = v.substring(0, 19) + "<div style='display:inline;color:#074d71'  title='#{v}'>&hellip;</div>"
       else
         if v.length > 21
-        then v = v.substring(0, 21) 
+        then v = v.substring(0, 21)
         else
         return v
 
@@ -140,14 +140,14 @@ toTitleCase = (str) ->
     txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
 
 currency = (n, mask, sign = '') ->
-  n = numeral(n)
-  if n < 0
-    s = n.format(mask).toString()
-    s = s.replace(/-/g, '')
-    return "(#{sign}#{s})"
+    n = numeral(n)
+    if n < 0
+        s = n.format(mask).toString()
+        s = s.replace(/-/g, '')
+        return "(#{sign}#{'<span class="fin-val">'+s+'</span>'})"
 
-  n = n.format(mask)
-  return "#{sign}#{n}"
+    n = n.format(mask)
+    return "#{sign}#{'<span class="fin-val">'+n+'</span>'}"
 
 render_tabs = (initial_layout, data, tabset, parent) ->
   #layout = add_other_tab_to_layout initial_layout, data
@@ -195,7 +195,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
         detail_data.tabcontent += templates['tabdetail-employee-comp-template'](content: h)
         if not plot_handles['median-comp-graph']
           graph = true
-          if data['median_salary_per_full_time_emp'] == 0 
+          if data['median_salary_per_full_time_emp'] == 0
             graph = false
           if data['median_benefits_per_ft_emp'] == 0
             graph = false
@@ -234,7 +234,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               chart.draw vis_data, options
               return
             ), 1000
-          if graph 
+          if graph
             google.load 'visualization', '1.0',
             'callback' : drawChart()
             'packages' :'corechart'
@@ -263,7 +263,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 'isStacked': 'true'
                 'colors': ['#005ce6', '#009933']
                 'chartArea.width': '50%'
-              if graph               
+              if graph
                 chart = new google.visualization.ColumnChart document.getElementById 'median-pension-graph'
                 chart.draw vis_data, options
               return
@@ -344,7 +344,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               chart.draw vis_data, options
               return
             ), 1000
-          if graph  
+          if graph
             google.load 'visualization', '1.0',
             'callback' : drawChart()
             'packages' :'corechart'
@@ -375,8 +375,8 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 'height': 300
                 'isStacked': 'true'
                 'colors': ['#005ce6', '#009933']
-                'chartArea.width': '50%'              
-              if graph 
+                'chartArea.width': '50%'
+              if graph
                 chart = new google.visualization.ColumnChart document.getElementById 'fin-health-expenditures-graph'
                 chart.draw vis_data, options
               return
@@ -419,12 +419,12 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 'height': 350
                 'pieStartAngle': 20
                 #'is3D' : 'true'
-              if graph 
+              if graph
                 chart = new google.visualization.PieChart document.getElementById 'total-expenditures-pie'
                 chart.draw vis_data, options
               return
             ), 1000
-          if graph 
+          if graph
             google.load 'visualization', '1.0',
             'callback' : drawChart()
             'packages' :'corechart'
