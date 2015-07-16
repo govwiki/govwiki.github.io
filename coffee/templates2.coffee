@@ -289,10 +289,10 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               vis_data.addRows [
                 [
                   'Public Safety Expense'
-                  100 - data['public_safety_exp_over_tot_gov_fund_revenue']
+                  1 - data['public_safety_exp_over_tot_gov_fund_revenue']
                 ]
                 [
-                  'Other Governmental \n Fund Revenue'
+                  'Other'
                   data['public_safety_exp_over_tot_gov_fund_revenue']
                 ]
               ]
@@ -303,7 +303,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                 'is3D' : 'true'
                 'colors': ['#005ce6', '#009933']
                 'slices': { 1: {offset: 0.2}}
-                'pieStartAngle': 20
+                'pieStartAngle': 45
               chart = new google.visualization.PieChart document.getElementById 'public-safety-pie'
               chart.draw vis_data, options
               return
@@ -329,7 +329,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                   data['total_revenue_per_capita']
                 ]
                 [
-                  'Median Total Revenue Per \n Capita For All Cities'
+                  'Median Total \n Revenue Per \n Capita For All Cities'
                   420
                 ]
               ]
@@ -365,7 +365,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
                   data['total_expenditures_per_capita']
                 ]
                 [
-                  'Median Total \n Expenditures Per Capita \n For All Cities'
+                  'Median Total \n Expenditures \n Per Capita \n For All Cities'
                   420
                 ]
               ]
@@ -392,6 +392,49 @@ render_tabs = (initial_layout, data, tabset, parent) ->
           h += render_financial_fields data.financial_statements, templates['tabdetail-finstatement-template']
           detail_data.tabcontent += templates['tabdetail-financial-statements-template'](content: h)
           #tabdetail-financial-statements-template
+          if not plot_handles['total-revenue-pie']
+            graph = true
+            if data.financial_statements.length == 0
+              graph = false
+            drawChart = () ->
+            setTimeout ( ->
+              vis_data = new google.visualization.DataTable()
+              vis_data.addColumn 'string', 'Total Gov. Expenditures'
+              vis_data.addColumn 'number', 'Total'
+
+              rows = []
+              for item in data.financial_statements
+                console.log '@@@@'+JSON.stringify item
+                if (item.category_name is "Revenues") and (item.caption isnt "Total Revenues")
+
+                  r = [
+                    item.caption
+                    parseInt item.totalfunds
+                  ]
+                  rows.push(r)
+
+              vis_data.addRows rows
+              options =
+                'title':'Total Revenues'
+                'width': 400
+                'height': 350
+                'pieStartAngle': 60
+                'sliceVisibilityThreshold': .05
+                'chartArea':{
+                   width:'90%'
+                   height:'75%'
+                 }
+                #'is3D' : 'true'
+              if graph 
+                chart = new google.visualization.PieChart document.getElementById 'total-revenue-pie'
+                chart.draw vis_data, options
+              return
+            ), 1000
+          if graph 
+            google.load 'visualization', '1.0',
+            'callback' : drawChart()
+            'packages' :'corechart'
+          plot_handles['total-revenue-pie'] ='total-revenue-pie'
           if not plot_handles['total-expenditures-pie']
             graph = true
             if data.financial_statements.length == 0
@@ -416,8 +459,14 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               options =
                 'title':'Total Expenditures'
                 'width': 400
+                chartArea:{width:'80%',height:'85%'}
                 'height': 350
-                'pieStartAngle': 20
+                'pieStartAngle': 35
+                'sliceVisibilityThreshold': .05
+                'chartArea':{
+                   width:'90%'
+                   height:'75%'
+                 }
                 #'is3D' : 'true'
               if graph
                 chart = new google.visualization.PieChart document.getElementById 'total-expenditures-pie'

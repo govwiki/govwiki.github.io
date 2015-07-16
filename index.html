@@ -144,7 +144,7 @@
         {{/if}}
       </div>
       <h3 style="text-transform:uppercase;padding:0; margin:0;">{{{title}}}</h3>
-    </div>
+    </div>  
     <div class="tabpanel">
 			<ul id="fieldTabs" class="nav nav-pills" role="tablist">
 				{{#each tabs}}
@@ -180,9 +180,9 @@
 <script id="tabdetail-finstatement-template" type="text/x-handlebars-template">
 	<div class="row">
 		<div class="col-sm-5">{{{name}}}</div>
-		<div class="col-sm-2 text-right" data-col="1">{{{genfund}}}</div>
-		<div class="col-sm-2 text-right" data-col="2">{{{otherfunds}}}</div>
-		<div class="col-sm-2 text-right" data-col="3">{{{totalfunds}}}</div>
+		<div class="col-sm-2 text-right">{{{genfund}}}</div>
+		<div class="col-sm-2 text-right">{{{otherfunds}}}</div>
+		<div class="col-sm-2 text-right">{{{totalfunds}}}</div>
 	</div>
 </script>
 
@@ -225,8 +225,8 @@
 		</div>
 		<div class="col-sm-4">
 			<div id="public-safety-pie" style="height: 16em;"></div>
-			<div id="fin-health-revenue-graph" style="height: 16em;"></div>
-			<div id="fin-health-expenditures-graph" style="height: 16em;"></div>
+			<div id="fin-health-revenue-graph" style="height: 17em;"></div>
+			<div id="fin-health-expenditures-graph" style="height: 17em;"></div>
 		</div>
 	</div>
 </script>
@@ -236,7 +236,10 @@
 		<div class="col-sm-5">
 			<div id="total-expenditures-pie" style="height: 16em;"></div>
 		</div>
-		<div class="col-sm-12 fin-values-block">
+		<div class="col-sm-5">
+			<div id="total-revenue-pie" style="height: 16em;"></div>
+		</div>
+		<div class="col-sm-12">
 			{{{ content }}}
 		</div>
 	</div>
