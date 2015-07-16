@@ -459,9 +459,8 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               options =
                 'title':'Total Expenditures'
                 'width': 400
-                chartArea:{width:'80%',height:'85%'}
                 'height': 350
-                'pieStartAngle': 35
+                'pieStartAngle': 60
                 'sliceVisibilityThreshold': .05
                 'chartArea':{
                    width:'90%'
