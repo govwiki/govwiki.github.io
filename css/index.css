@@ -345,3 +345,9 @@ a {
   z-index: 2;
   transition: opacity 0.4s ease-in-out;
 }
+ul.search-icon li > a {
+  color: #b2dbfb;
+}
+ul.search-icon li > a:hover {
+  background-color: #3b708c;
+}

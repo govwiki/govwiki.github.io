@@ -1,0 +1,55 @@
+nav.navbar.navbar-inverse.navbar-static-top(style="margin-bottom:0")
+  #header.container.container-fluid(style="width:100%")
+    
+    .navbar-header
+      button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+          
+      a#brand.navbar-brand(href='#', onclick="GOVWIKI.show_search_page()")
+        #brand-first-line Civic Performance Profiles
+        #brand-second-line A free public directory of government officials, finances and performance metrics
+    
+    #navbar.navbar-collapse.collapse
+      ul.nav.navbar-nav
+        //li 
+          //a(href='#') A free public directory of government officials, finances and performance metrics
+        //li.active
+          a(href='#') Home
+      ul.nav.navbar-nav.navbar-right
+        li#searchIcon
+          a(href='#', onclick="GOVWIKI.show_search_page()") Search &nbsp;&nbsp;&nbsp;
+            span.glyphicon.glyphicon-search(style="font-size:200%;vertical-align:middle;")
+        //li
+          a(href='#') About
+        //li
+          a(href='#') Contact
+        //li.dropdown
+          a.dropdown-toggle(href='http://getbootstrap.com/examples/navbar-static-top/#', data-toggle='dropdown', role='button', aria-expanded='false')
+            | Theme 
+            span.caret
+          ul.dropdown-menu(role='menu')
+            li
+              a(href='http://getbootstrap.com/examples/navbar-static-top/#') Action
+            li
+              a(href='http://getbootstrap.com/examples/navbar-static-top/#') Another action
+            li
+              a(href='http://getbootstrap.com/examples/navbar-static-top/#') Something else here
+            li.divider
+            li.dropdown-header Nav header
+            li
+              a(href='http://getbootstrap.com/examples/navbar-static-top/#') Separated link
+            li
+              a(href='http://getbootstrap.com/examples/navbar-static-top/#') One more separated link
+
+        //li
+          #text-logo(style="font-family:sans-serif;border:2px solid white;line-height:0.9;margin:10px;")
+            .line1(style="padding-top:3px;color:#2196f3;background-color:white;font-size:26px;") CALIFORNIA
+            .line2(style="padding-top:2px;font-size:14px;color:white;text-align:right;") POLICI CENTER
+
+        li
+          img#logo(src='img/cpc-logo-homepage.gif')
+        //li
+          a(href='#') Login
