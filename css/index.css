@@ -253,7 +253,6 @@ a {
 /*currency sign styles*/
 .currency-sign {
   position: absolute;
-  left: 0;
 }
 .label-tooltip {
   max-width: 200px;
