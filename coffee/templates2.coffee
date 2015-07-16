@@ -12,6 +12,7 @@
 
 # LOAD FIELD NAMES 
 fieldNames = {}
+ranks = []
 
 
 render_field_value = (n,mask,data) ->
@@ -113,6 +114,10 @@ under = (s) -> s.replace(/[\s\+\-]/g, '_')
 
 render_tabs = (initial_layout, data, tabset, parent) ->
   #layout = add_other_tab_to_layout initial_layout, data
+
+  for r in ranks 
+    console.log data["#{r}"]
+
   layout = initial_layout
   templates = parent.templates
   plot_handles = {}
@@ -267,7 +272,6 @@ render_tabs = (initial_layout, data, tabset, parent) ->
     layout_data.tabcontent += templates['tabdetail-template'](detail_data)
   return templates['tabpanel-template'](layout_data)
 
-
 get_layout_fields = (la) ->
   f = {}
   for t in la
@@ -298,7 +302,6 @@ add_other_tab_to_layout = (layout=[], data) ->
 
   l.push t
   return l
-
 
 # converts tab template described in google fusion table to 
 # tab template
@@ -337,13 +340,12 @@ convert_fusion_template=(templ) ->
     if not fieldname then fieldname = "_" + String ++placeholder_count
     fieldNames[val 'field_name', row, col_hash]=val 'description', row, col_hash
     rank = val 'rank', row, col_hash
-    
+    if rank == 'x'
+      ranks.push "#{fieldname}_rank"
+      #console.log "#{fieldname}_rank"
     if category
       tab_hash[category]?=[]
-      tab_hash[category].push n: val('n', row, col_hash), name: fieldname, mask: val('mask', row, col_hash)
-      if rank == 'x'
-        console.log val 'field_name', row, col_hash
-        tab_hash[category].push n: val('n', row, col_hash), name: fieldname, mask: val('mask', row, 'rank_value')
+      tab_hash[category].push n: val('n', row, col_hash), name: fieldname, mask: val('mask', row, col_hash), rank: val 'rank', row, col_hash
 
   categories = Object.keys(tab_hash)
   categories_sort = {}
@@ -370,7 +372,6 @@ convert_fusion_template=(templ) ->
 
   tabs = hash_to_array(tab_newhash)
   return tabs
-
 
 class Templates2
 
