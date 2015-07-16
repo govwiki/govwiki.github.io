@@ -65,9 +65,9 @@
 <script id="tabdetail-finstatement-template" type="text/x-handlebars-template">
 	<div class="row">
 		<div class="col-sm-5">{{{name}}}</div>
-		<div class="col-sm-2 text-right">{{{genfund}}}</div>
-		<div class="col-sm-2 text-right">{{{otherfunds}}}</div>
-		<div class="col-sm-2 text-right">{{{totalfunds}}}</div>
+		<div class="col-sm-2 text-right" data-col="1">{{{genfund}}}</div>
+		<div class="col-sm-2 text-right" data-col="2">{{{otherfunds}}}</div>
+		<div class="col-sm-2 text-right" data-col="3">{{{totalfunds}}}</div>
 	</div>
 </script>
 
@@ -124,7 +124,7 @@
 		<div class="col-sm-5">
 			<div id="total-revenue-pie" style="height: 16em;"></div>
 		</div>
-		<div class="col-sm-12">
+		<div class="col-sm-12 fin-values-block">
 			{{{ content }}}
 		</div>
 	</div>
