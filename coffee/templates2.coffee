@@ -288,7 +288,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               vis_data.addColumn 'number', 'Total'
               vis_data.addRows [
                 [
-                  'Public Safety Expense'
+                  'Public Safety Exp'
                   1 - data['public_safety_exp_over_tot_gov_fund_revenue']
                 ]
                 [
