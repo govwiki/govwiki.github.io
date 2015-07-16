@@ -351,3 +351,7 @@ ul.search-icon li > a {
 ul.search-icon li > a:hover {
   background-color: #3b708c;
 }
+span.rank {
+  font-style: italic;
+  font-size: 75%;
+}

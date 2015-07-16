@@ -24,6 +24,15 @@ render_field_value = (n,mask,data) ->
     return "<a target='_blank' href='#{v}'>#{v}</a>"
   else
     if '' != mask
+      if n in ['property_crimes_per_100000_population', 'violent_crimes_per_100000_population', 'academic_performance_index']
+        v = numeral(v).format(mask)
+        switch n
+          when 'property_crimes_per_100000_population'
+            return "#{v} <span class='rank'>(#{data['property_crimes_per_100000_population_rank']} of 512)</span>"
+          when 'violent_crimes_per_100000_population'
+            return "#{v} <span class='rank'>(#{data['violent_crimes_per_100000_population_rank']} of 512)</span>"
+          when 'academic_performance_index'
+            return "#{v} <span class='rank'>(#{data['academic_performance_index_rank']} of 972)</span>"
       return numeral(v).format(mask)
     else
       if v.length > 20 and
