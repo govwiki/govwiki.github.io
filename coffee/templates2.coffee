@@ -115,7 +115,7 @@ render_financial_fields = (data,template)->
         h += '</br>'
         h += template(name: "<b>" + category + "</b>", genfund: '', otherfunds: '', totalfunds: '')
 
-    fields_with_dollar_sign = ['Taxes', 'Capital outlay', 'Total Revenues', 'Total Expenditures', 'Surplus / (Deficit)']
+    fields_with_dollar_sign = ['Taxes', 'Capital Outlay', 'Total Revenues', 'Total Expenditures', 'Surplus / (Deficit)']
     if field.caption == 'General Fund Balance' or field.caption == 'Long Term Debt'
       h += template(name: field.caption, genfund: currency(field.genfund, mask, '<span class="currency-sign">$</span>'))
     else if field.caption in fields_with_dollar_sign
