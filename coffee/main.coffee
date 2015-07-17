@@ -41,7 +41,11 @@ gov_selector = new GovSelector '.typeahead', 'data/h_types_ca.json', 7
 templates = new Templates2
 active_tab=""
 
-#"
+# Load introductory text from texts/intro-text.html to #intro-text container.
+$.get "texts/intro-text.html", (data) ->
+  $("#intro-text").html data
+
+
 
 # fire client-side URL routing
 router = new Grapnel
