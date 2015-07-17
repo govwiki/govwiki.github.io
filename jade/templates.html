@@ -29,7 +29,7 @@
         {{/if}}
       </div>
       <h3 style="text-transform:uppercase;padding:0; margin:0;">{{{title}}}</h3>
-    </div>  
+    </div>
     <div class="tabpanel">
 			<ul id="fieldTabs" class="nav nav-pills" role="tablist">
 				{{#each tabs}}
@@ -118,11 +118,11 @@
 
 <script id="tabdetail-financial-statements-template" type="text/x-handlebars-template">
 	<div class="row">
+        <div class="col-sm-5">
+            <div id="total-revenue-pie" style="height: 16em;"></div>
+        </div>
 		<div class="col-sm-5">
 			<div id="total-expenditures-pie" style="height: 16em;"></div>
-		</div>
-		<div class="col-sm-5">
-			<div id="total-revenue-pie" style="height: 16em;"></div>
 		</div>
 		<div class="col-sm-12 fin-values-block">
 			{{{ content }}}
