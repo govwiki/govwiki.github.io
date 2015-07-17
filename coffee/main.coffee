@@ -139,27 +139,27 @@ $(document).on 'click', '#fieldTabs a', (e) ->
     finValWidthMax2 = 0
     finValWidthMax3 = 0
 
-    $('[data-col="1"]').find('.fin-val').each () ->
+    $('.fin-values-block [data-col="1"]').find('.fin-val').each () ->
         thisFinValWidth = $(this).width()
 
         if thisFinValWidth > finValWidthMax1
             finValWidthMax1 = thisFinValWidth
 
-    $('[data-col="2"]').find('.fin-val').each () ->
+    $('.fin-values-block [data-col="2"]').find('.fin-val').each () ->
         thisFinValWidth = $(this).width()
 
         if thisFinValWidth > finValWidthMax2
             finValWidthMax2 = thisFinValWidth
 
-    $('[data-col="3"]').find('.fin-val').each () ->
+    $('.fin-values-block [data-col="3"]').find('.fin-val').each () ->
         thisFinValWidth = $(this).width()
 
         if thisFinValWidth > finValWidthMax3
             finValWidthMax3 = thisFinValWidth
 
-    $('[data-col="1"] .currency-sign').css('right', finValWidthMax1 + 27)
-    $('[data-col="2"] .currency-sign').css('right', finValWidthMax2 + 27)
-    $('[data-col="3"] .currency-sign').css('right', finValWidthMax3 + 27)
+    $('.fin-values-block [data-col="1"] .currency-sign').css('right', finValWidthMax1 + 27)
+    $('.fin-values-block [data-col="2"] .currency-sign').css('right', finValWidthMax2 + 27)
+    $('.fin-values-block [data-col="3"] .currency-sign').css('right', finValWidthMax3 + 27)
 
 
 $(document).tooltip({selector: "[class='media-tooltip']",trigger:'click'})
