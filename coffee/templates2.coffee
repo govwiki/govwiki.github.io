@@ -274,7 +274,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
         h += render_fields tab.fields, data, templates['tabdetail-namevalue-template']
         detail_data.tabcontent += templates['tabdetail-financial-health-template'](content: h)
         #public safety pie
-        if not plot_handles['public-safety-pie']
+        if not plot_handles['public-safety-pie'] and data['alt_type'] != 'School District'
           graph = true
           if data['public_safety_exp_over_tot_gov_fund_revenue'] == 0
             graph = false
@@ -311,7 +311,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
             'packages' :'corechart'
           plot_handles['public-safety-pie'] ='public-safety-pie'
         #fin-health-revenue graph
-        if not plot_handles['fin-health-revenue-graph']
+        if not plot_handles['fin-health-revenue-graph'] and data['alt_type'] != 'School District'
           graph = true
           if data['total_revenue_per_capita'] == 0
             graph = false
@@ -347,7 +347,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
             'packages' :'corechart'
           plot_handles['fin-health-revenue-graph'] ='fin-health-revenue-graph'
         #fin-health-expenditures-graph
-        if not plot_handles['fin-health-expenditures-graph']
+        if not plot_handles['fin-health-expenditures-graph'] and data['alt_type'] != 'School District'
           graph = true
           if data['total_expenditures_per_capita'] == 0
             graph = false
