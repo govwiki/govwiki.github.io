@@ -112,6 +112,7 @@ render_financial_fields = (data,template)->
   h = ''
   mask = '0,0'
   category = ''
+  is_first_row = false
   for field in data
     if category != field.category_name
       category = field.category_name
@@ -120,15 +121,19 @@ render_financial_fields = (data,template)->
       else if category == 'Revenues'
         h += '</br>'
         h += "<b>" + template(name: category, genfund: "General Fund", otherfunds: "Other Funds", totalfunds: "Total Gov. Funds") + "</b>"
+        is_first_row = true
       else
         h += '</br>'
         h += template(name: "<b>" + category + "</b>", genfund: '', otherfunds: '', totalfunds: '')
+        is_first_row = true
 
     fields_with_dollar_sign = ['Taxes', 'Capital Outlay', 'Total Revenues', 'Total Expenditures', 'Surplus / (Deficit)']
     if field.caption == 'General Fund Balance' or field.caption == 'Long Term Debt'
       h += template(name: field.caption, genfund: currency(field.genfund, mask, '<span class="currency-sign">$</span>'))
+    else if field.caption in ['Total Revenues', 'Total Expenditures', 'Surplus / (Deficit)'] or is_first_row
     else if field.caption in fields_with_dollar_sign
       h += template(name: field.caption, genfund: currency(field.genfund, mask, '<span class="currency-sign">$</span>'), otherfunds: currency(field.otherfunds, mask, '<span class="currency-sign">$</span>'), totalfunds: currency(field.totalfunds, mask, '<span class="currency-sign">$</span>'))
+      is_first_row = false
     else
       h += template(name: field.caption, genfund: currency(field.genfund, mask), otherfunds: currency(field.otherfunds, mask), totalfunds: currency(field.totalfunds, mask))
   return h
