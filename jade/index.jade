@@ -26,7 +26,8 @@ html(lang='en')
       script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
 
   body
-    include navbar.jade
+    .container(style="padding:0")
+      include navbar.jade
 
     // Search & Filters 
     #searchContainer.container.container-fluid(style="width0:100%")
@@ -97,14 +98,16 @@ html(lang='en')
     //-       .col-sm-4.text-right
     //-         .navbar-text(style="width:100%;padding-right: 20px;")
     //-           a.navbar-link(href='https://github.com/govwiki/govwiki-dev.us') Github project
-    <footer class="container_wrap socket_color" id="socket" role="contentinfo" itemscope="itemscope" itemtype="https://schema.org/WPFooter">
-    <div class="container">
-    <span class="copyright">The California Policy Center is a 501c3 non-profit public charity. CA Corp. # 3295222. Federal EIN 27-2870463.<br>Copyright © California Policy Center 2015. All rights reserved</span>
-    <ul class="noLightbox social_bookmarks icon_count_3"><li class="social_bookmarks_facebook av-social-link-facebook social_icon_1"><a target="_blank" href="https://www.facebook.com/CalPolicyCenter" aria-hidden="true" data-av_icon="" data-av_iconfont="entypo-fontello" title="Facebook"><span class="avia_hidden_link_text">Facebook</span></a></li><li class="social_bookmarks_twitter av-social-link-twitter social_icon_2"><a target="_blank" href="https://twitter.com/calpolicycenter" aria-hidden="true" data-av_icon="" data-av_iconfont="entypo-fontello" title="Twitter"><span class="avia_hidden_link_text">Twitter</span></a></li><li class="social_bookmarks_linkedin av-social-link-linkedin social_icon_3"><a target="_blank" href="https://www.linkedin.com/company/california-policy-center" aria-hidden="true" data-av_icon="" data-av_iconfont="entypo-fontello" title="Linkedin"><span class="avia_hidden_link_text">Linkedin</span></a></li></ul><nav class="sub_menu_socket" role="navigation" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement"><div class="avia3-menu"><ul id="avia3-menu" class="menu"><li id="menu-item-4677" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4677"><a href="http://californiapolicycenter.org">HOME</a></li>
-    <li id="menu-item-4666" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4666"><a href="http://californiapolicycenter.org/contact/">CONTACT US</a></li>
-    </ul></div></nav>
-    </div>
-    </footer>
+    
+    .container(style="padding:0")
+      <footer class="container_wrap socket_color" id="socket" role="contentinfo" itemscope="itemscope" itemtype="https://schema.org/WPFooter">
+      <div class="container">
+      <span class="copyright">The California Policy Center is a 501c3 non-profit public charity. CA Corp. # 3295222. Federal EIN 27-2870463.<br>Copyright © California Policy Center 2015. All rights reserved</span>
+      <ul class="noLightbox social_bookmarks icon_count_3"><li class="social_bookmarks_facebook av-social-link-facebook social_icon_1"><a target="_blank" href="https://www.facebook.com/CalPolicyCenter" aria-hidden="true" data-av_icon="" data-av_iconfont="entypo-fontello" title="Facebook"><span class="avia_hidden_link_text">Facebook</span></a></li><li class="social_bookmarks_twitter av-social-link-twitter social_icon_2"><a target="_blank" href="https://twitter.com/calpolicycenter" aria-hidden="true" data-av_icon="" data-av_iconfont="entypo-fontello" title="Twitter"><span class="avia_hidden_link_text">Twitter</span></a></li><li class="social_bookmarks_linkedin av-social-link-linkedin social_icon_3"><a target="_blank" href="https://www.linkedin.com/company/california-policy-center" aria-hidden="true" data-av_icon="" data-av_iconfont="entypo-fontello" title="Linkedin"><span class="avia_hidden_link_text">Linkedin</span></a></li></ul><nav class="sub_menu_socket" role="navigation" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement"><div class="avia3-menu"><ul id="avia3-menu" class="menu"><li id="menu-item-4677" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4677"><a href="http://californiapolicycenter.org">HOME</a></li>
+      <li id="menu-item-4666" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4666"><a href="http://californiapolicycenter.org/contact/">CONTACT US</a></li>
+      </ul></div></nav>
+      </div>
+      </footer>
 
     include templates.html
 
