@@ -212,8 +212,10 @@ get_record2 = (recid) ->
           data.financial_statements = data2
           get_elected_officials data._id, 25, (data3, textStatus2, jqXHR2) ->
             data.elected_officials = data3
-            $('#details').html templates.get_html(0, data)
-            activate_tab()
+            get_max_ranks (max_ranks_response) ->
+              data.max_ranks = max_ranks_response.record[0]
+              $('#details').html templates.get_html(0, data)
+              activate_tab()
             #govmap.geocode data[0]
       return
     error:(e) ->
@@ -254,6 +256,15 @@ get_financial_statements = (gov_id, onsuccess) ->
     error:(e) ->
       console.log e
 
+
+get_max_ranks = (onsuccess) ->
+  $.ajax
+    url:'http://46.101.3.79:80/rest/db/max_ranks'
+    data:
+      app_name:'govwiki'
+    dataType: 'json'
+    cache: true
+    success: onsuccess
 
 window.GOVWIKI.show_record =(rec)=>
   $('#details').html templates.get_html(0, rec)
