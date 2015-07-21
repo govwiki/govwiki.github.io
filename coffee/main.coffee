@@ -49,7 +49,7 @@ $.get "texts/intro-text.html", (data) ->
 
 # fire client-side URL routing
 router = new Grapnel
-router.get ':id', (req) ->
+router.get ':id/:alt_name', (req) ->
   id = req.params.id
   console.log "ROUTER ID=#{id}"
   get_elected_officials = (gov_id, limit, onsuccess) ->
@@ -101,6 +101,7 @@ draw_polygons = (countiesJSON) ->
       fillColor: '#FF0000'
       fillOpacity: 0.15
       countyId: county.properties._id
+      altName: county.properties.alt_name
       marker: new MarkerWithLabel({
         position: new google.maps.LatLng(0,0),
         draggable: false,
@@ -122,7 +123,7 @@ draw_polygons = (countiesJSON) ->
         this.setOptions({fillColor: "#FF0000"})
         this.marker.setVisible(false)
       click: ->
-        router.navigate this.countyId
+        router.navigate "#{this.countyId}/#{this.altName}"
     })
 
 get_counties draw_polygons
@@ -180,7 +181,7 @@ gov_selector.on_selected = (evt, data, name) ->
     get_record2 data["_id"]
     activate_tab()
     GOVWIKI.show_data_page()
-    router.navigate(data._id)
+    router.navigate "#{data._id}/#{data.gov_name.replace(/ /g,'_').replace(/(<([^>]+)>)/ig, '')}"
     return
 
 
@@ -280,7 +281,7 @@ window.GOVWIKI.show_record2 =(rec)=>
     get_record2 rec._id
     activate_tab()
     GOVWIKI.show_data_page()
-    router.navigate(rec._id)
+    router.navigate "#{rec._id}/#{rec.alt_name.replace(/ /g,'_')}"
 
 
 

@@ -160,7 +160,7 @@ get_records2 = (query, limit, onsuccess) ->
     data:
       #filter:"latitude>32 AND latitude<34 AND longitude>-87 AND longitude<-86"
       filter:query
-      fields:"_id,inc_id,gov_name,gov_type,city,zip,state,latitude,longitude"
+      fields:"_id,inc_id,gov_name,gov_type,city,zip,state,latitude,longitude,alt_name"
       app_name:"govwiki"
       order:"rand"
       limit:limit
