@@ -67,7 +67,7 @@ class GovSelector
         $('.typeahead').val @entered_value
     
 
-    $('.gov-counter').text @count_govs()
+   # $('.gov-counter').text @count_govs()
     return
 
 
