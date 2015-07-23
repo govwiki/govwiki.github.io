@@ -45,11 +45,9 @@ active_tab=""
 $.get "texts/intro-text.html", (data) ->
   $("#intro-text").html data
 
-
-
 # fire client-side URL routing
 router = new Grapnel
-router.get ':id/:alt_name', (req) ->
+router.get ':id', (req) ->
   id = req.params.id
   console.log "ROUTER ID=#{id}"
   get_elected_officials = (gov_id, limit, onsuccess) ->
@@ -67,19 +65,46 @@ router.get ':id/:alt_name', (req) ->
       success: onsuccess
       error:(e) ->
         console.log e
-
-  elected_officials = get_elected_officials id, 25, (elected_officials_data, textStatus, jqXHR) ->
-    data = new Object()
-    data._id = id
-    data.elected_officials = elected_officials_data
-    data.gov_name = ""
-    data.gov_type = ""
-    data.state = ""
-    $('#details').html templates.get_html(0, data)
-    get_record2 data._id
-    activate_tab()
-    GOVWIKI.show_data_page()
-    return
+  if isNaN(id)
+    id = id.replace(/_/g,' ')
+    build_data = (id, limit, onsuccess) ->
+      $.ajax
+        url:"http://46.101.3.79:80/rest/db/govs"
+        data:
+          filter:"alt_name='#{id}'"
+          app_name:"govwiki"
+        dataType: 'json'
+        cache: true
+        success: (data) ->
+          elected_officials = get_elected_officials data.record[0]._id, 25, (elected_officials_data, textStatus, jqXHR) ->
+            gov_id = data.record[0]._id
+            data = new Object()
+            data._id = gov_id
+            data.elected_officials = elected_officials_data
+            data.gov_name = ""
+            data.gov_type = ""
+            data.state = ""
+            $('#details').html templates.get_html(0, data)
+            get_record2 data._id
+            activate_tab()
+            GOVWIKI.show_data_page()
+            return
+        error:(e) ->
+          console.log e
+    build_data(id)
+  else
+    elected_officials = get_elected_officials id, 25, (elected_officials_data, textStatus, jqXHR) ->
+      data = new Object()
+      data._id = id
+      data.elected_officials = elected_officials_data
+      data.gov_name = ""
+      data.gov_type = ""
+      data.state = ""
+      $('#details').html templates.get_html(0, data)
+      get_record2 data._id
+      activate_tab()
+      GOVWIKI.show_data_page()
+      return
 
 
 get_counties = (callback) ->
@@ -123,7 +148,7 @@ draw_polygons = (countiesJSON) ->
         this.setOptions({fillColor: "#FF0000"})
         this.marker.setVisible(false)
       click: ->
-        router.navigate "#{this.countyId}/#{this.altName}"
+        router.navigate "#{this.countyId}"
     })
 
 get_counties draw_polygons
@@ -181,7 +206,7 @@ gov_selector.on_selected = (evt, data, name) ->
     get_record2 data["_id"]
     activate_tab()
     GOVWIKI.show_data_page()
-    router.navigate "#{data._id}/#{data.gov_name.replace(/ /g,'_').replace(/(<([^>]+)>)/ig, '')}"
+    router.navigate "#{data._id}"
     return
 
 
@@ -276,12 +301,13 @@ window.GOVWIKI.show_record =(rec)=>
 
 window.GOVWIKI.show_record2 =(rec)=>
   get_elected_officials rec._id, 25, (data, textStatus, jqXHR) ->
+    console.log '123'
     rec.elected_officials = data
     $('#details').html templates.get_html(0, rec)
     get_record2 rec._id
     activate_tab()
     GOVWIKI.show_data_page()
-    router.navigate "#{rec._id}/#{rec.alt_name.replace(/ /g,'_')}"
+    router.navigate "#{rec.alt_name.replace(/ /g,'_')}"
 
 
 
