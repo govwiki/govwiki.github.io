@@ -6,7 +6,8 @@ map = new GMaps
   lat: 37
   lng: -119
   zoom: 6
-  scrollwheel: false
+  minZoom: 6
+  scrollwheel: true
   panControl: false
   zoomControl: true
   zoomControlOptions:

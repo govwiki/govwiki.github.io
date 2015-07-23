@@ -313,6 +313,7 @@ render_tabs = (initial_layout, data, tabset, parent) ->
         #fin-health-revenue graph
         if not plot_handles['fin-health-revenue-graph'] and data['alt_type'] != 'School District'
           graph = true
+          console.log '###al'+JSON.stringify data
           if data['total_revenue_per_capita'] == 0
             graph = false
           drawChart = () ->
@@ -332,11 +333,11 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               ]
               options =
                 'title':'Total Revenue'
-                'width': 340
+                'width': 470
                 'height': 300
                 'isStacked': 'true'
                 'colors': ['#005ce6', '#009933']
-                'chartArea.width': '50%'
+                'chartArea.width': '100%'
               chart = new google.visualization.ColumnChart document.getElementById 'fin-health-revenue-graph'
               chart.draw vis_data, options
               return
@@ -368,11 +369,11 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               ]
               options =
                 'title':'Total Expenditures'
-                'width': 340
+                'width': 470
                 'height': 300
                 'isStacked': 'true'
                 'colors': ['#005ce6', '#009933']
-                'chartArea.width': '50%'
+                'chartArea.width': '100%'
               if graph
                 chart = new google.visualization.ColumnChart document.getElementById 'fin-health-expenditures-graph'
                 chart.draw vis_data, options
