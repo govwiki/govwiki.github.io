@@ -1,0 +1,50 @@
+{
+  "name": "govwiki-site",
+  "version": "0.0.1",
+  "description": "California local government civic profile system for CPC",
+  "main": "index.html",
+  "author": "vadim ivlev",
+  "license": "MIT",
+  "scripts": {
+    "push": "git add -A . && git commit -am 'v' && git push",
+    "stylus": "stylus css/index.styl",
+    "stylusw": "stylus -w css/index.styl",
+    "jade": "jade jade -P -o .",
+    "jadew": "jade jade -P -w -o .",
+    "coffee": "browserify -d -t coffeeify coffee/main.coffee -o static/bundle.js",
+    "coffeew": "watchify  -d -t coffeeify coffee/main.coffee -o static/bundle.js",
+    "watch": "npm run jadew & npm run coffeew & npm run stylusw &",
+    "live-reload": "live-reload  index.html css static --port=9090 --delay=500",
+    "dev": "npm run live-reload & npm run start & npm run watch & echo 'Launch browser and start editing files' ",
+    "start": "http-server --cors -s -o",
+    "serve": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/govwiki/govwiki-dev.us.git"
+  },
+  "keywords": [
+    "government",
+    "wiki",
+    "govwiki",
+    "california",
+    "ivlev",
+    "joffe"
+  ],
+  "dependencies": {
+    "browserify": "^9.0.7",
+    "coffee-script": "^1.9.1",
+    "coffeeify": "^1.0.0",
+    "connect": "^3.3.4",
+    "http-server": "^0.7.5",
+    "jade": "^1.9.2",
+    "live-reload": "^1.1.0",
+    "serve-static": "^1.9.1",
+    "stylus": "^0.50.0",
+    "watchify": "^3.1.0"
+  },
+  "bugs": {
+    "url": "https://github.com/govwiki/govwiki-dev.us/issues"
+  },
+  "homepage": "https://govwiki.us"
+}

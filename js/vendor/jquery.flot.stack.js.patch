@@ -1,0 +1,60 @@
+46c46
+<                 if (allseries[i].stack == s.stack)
+---
+>                 if (allseries[i].stack == s.stack && allseries[i].datapoints.points.length != 0 )
+49c49
+<             
+---
+> 			
+54c54
+<             if (s.stack == null)
+---
+>             if (s.stack == null || datapoints.points.length == 0)
+56c56
+< 
+---
+> 		
+57a58
+> 
+60c61,91
+< 
+---
+>             
+>             // less points ? add points to match the previous serie
+>             if ( other.datapoints.points.length > datapoints.points.length ) {
+>             	var completedpoints = [];
+>             	var w = 0, x = 0, y = 0, z = -1,
+>             		ods = other.datapoints.points.length,
+>             		ops = other.datapoints.pointsize,
+>             		ds = datapoints.points.length,
+>             		dps = datapoints.pointsize;
+>             	for( x = 0; x < ods; x += ops ) {
+>             		z = -1;
+>             		for( y = 0; y < ds ; y += dps ) {
+>             			if ( other.datapoints.points[x] == datapoints.points[y] ) {
+>             				z = y;
+>             				break;
+>             			}
+>             		}
+>             		if ( z > -1 ) {
+>             			for( w = 0; w < dps; ++w )
+>             				completedpoints.push( datapoints.points[z + w] );
+>             		}
+>             		else {
+>             			completedpoints.push( other.datapoints.points[x] );
+> 						for( w = 1; w < ops; ++w )
+> 							completedpoints.push( 0 );
+>             		}
+>             	}
+>             	s.datapoints.points = completedpoints;
+>             	datapoints.points = completedpoints;
+>             }
+> 	
+89c120
+<                     // for lines, we can't use the rest of the points
+---
+> 					// for lines, we can't use the rest of the points
+135c166
+<                     else { // px < qx
+---
+>                     else { // px < qx	

@@ -1,0 +1,131 @@
+<script id="tab-template" type="text/x-handlebars-template">
+	<li role="presentation" class="{{active}}">
+		<a href="#{{tabid}}" aria-controls="home" role="tab"
+		  data-toggle="tab" data-tabname="{{tabname}}">{{tabname}}</a>
+	</li>
+</script>
+
+<script id="tabpanel-template" type="text/x-handlebars-template">
+	<div id="details">
+    <div style="min-height:60px;">
+      <div style="text-align:right; min-height:48px;" class="pull-right">
+        {{#if wikipedia_page_name}}
+            <a  target="_blank" href="{{wikipedia_page_name}}">
+              Open Wikipedia article
+              <img src="http://www.mailamengg.com/Portals/0/photo1/logo/wikipedia.png" style="width:36px; height:36px">
+            </a>
+        {{/if}}
+        {{#if latest_audit_url}}
+            <a target="_blank" href="{{latest_audit_url}}" style="margin-left:20px;">
+              Latest Audit
+              <img src="data:image/png;base64,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" style="">
+            </a>
+        {{/if}}
+        {{#if transparent_california_page_name}}
+            <a  target="_blank" href="{{transparent_california_page_name}}" style="margin-left:20px;">
+              Transparent California
+              <img src="http://us.cdn2.123rf.com/168nwm/blankstock/blankstock1409/blankstock140900218/31369868-text-edit-sign-icon-letter-t-button-circle-flat-button-with-shadow-modern-ui-website-navigation-vect.jpg" style="width:36px; height:36px">
+            </a>
+        {{/if}}
+      </div>
+      <h3 style="text-transform:uppercase;padding:0; margin:0;">{{{title}}}</h3>
+    </div>
+    <div class="tabpanel">
+			<ul id="fieldTabs" class="nav nav-pills" role="tablist">
+				{{#each tabs}}
+					{{> tab-template }}
+				{{/each}}
+			</ul>
+			<div id="tabsContent" class="tab-content">
+				{{{tabcontent}}}
+			</div>
+		</div>
+	</div>
+</script>
+
+<script id="tabdetail-template" type="text/x-handlebars-template">
+	<div role="tabpanel" class="tab-pane one-tab {{active}}" id="{{tabid}}" style="padding-top: 20px">
+		<h4>{{tabname}}</h4>
+		<br />
+		{{{tabcontent}}}
+	</div>
+</script>
+
+<script id="tabdetail-namevalue-template" type="text/x-handlebars-template">
+	<div>
+		<span class="f-nam" >{{name}}
+			{{#if help}}
+			<div style='display:inline;color:#074d71'   title='{{help}}'><img src="img/678110-sign-info-16.png" /></div>
+			{{/if}}
+		</span>
+		<span class="f-val">{{{value}}}</span>
+	</div>
+</script>
+
+<script id="tabdetail-finstatement-template" type="text/x-handlebars-template">
+	<div class="row">
+		<div class="col-sm-5">{{{name}}}</div>
+		<div class="col-sm-2 text-right" data-col="1">{{{genfund}}}</div>
+		<div class="col-sm-2 text-right" data-col="2">{{{otherfunds}}}</div>
+		<div class="col-sm-2 text-right" data-col="3">{{{totalfunds}}}</div>
+	</div>
+</script>
+
+<script id="tabdetail-official-template" type="text/x-handlebars-template">
+	<div style="margin-top:20px;">
+    <span class="f-nam f-nam-margin">
+			{{title}}<br>
+			{{name}}<br>
+			{{#if email}}
+			<a href="mailto:{{email}}">{{email}}</a><br />
+			{{/if}}
+			{{#if telephonenumber}}
+			{{telephonenumber}}<br />
+			{{/if}}
+			{{termexpires}}
+		</span>
+		{{#if image}}
+		<span class="f-val">{{{image}}}</span>
+		{{/if}}
+	</div>
+</script>
+
+<script id="tabdetail-employee-comp-template" type="text/x-handlebars-template">
+	<div class="row">
+		<div class="col-sm-8">
+			{{{ content }}}
+		</div>
+		<div class="col-sm-4">
+			<div id="median-comp-graph" style="height: 16em;"></div>
+			<div id="median-pension-graph" style="height: 16em;"></div>
+			<div id="pct-pension-graph" style="height: 16em;"></div>
+		</div>
+	</div>
+</script>
+
+<script id="tabdetail-financial-health-template" type="text/x-handlebars-template">
+	<div class="row">
+		<div class="col-sm-8">
+			{{{ content }}}
+		</div>
+		<div class="col-sm-4">
+			<div id="public-safety-pie" style="height: 16em;"></div>
+			<div id="fin-health-revenue-graph" style="height: 17em;"></div>
+			<div id="fin-health-expenditures-graph" style="height: 17em;"></div>
+		</div>
+	</div>
+</script>
+
+<script id="tabdetail-financial-statements-template" type="text/x-handlebars-template">
+	<div class="row">
+        <div class="col-sm-12 col-lg-6 col-md-6">
+            <div id="total-revenue-pie" style="height: 16em;"></div>
+        </div>
+		<div class="col-sm-12 col-lg-6 col-md-6">
+			<div id="total-expenditures-pie" style="height: 16em;"></div>
+		</div>
+		<div class="col-sm-12 fin-values-block">
+			{{{ content }}}
+		</div>
+	</div>
+</script>
