@@ -18,12 +18,16 @@ map = new GMaps
 map.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(document.getElementById('legend'))
 
 $ ->
-  $('#legend li').on 'click', ->
+  $('#legend li:not(.counties-trigger)').on 'click', ->
     $(this).toggleClass('active')
     hidden_field = $(this).find('input')
     value = hidden_field.val()
     hidden_field.val(if value == '1' then '0' else '1')
     rebuild_filter()
+
+  $('#legend li.counties-trigger').on 'click', ->
+    $(this).toggleClass('active')
+    if $(this).hasClass('active') then GOVWIKI.get_counties GOVWIKI.draw_polygons else map.removePolygons()
 
 rebuild_filter = ->
   hard_params = ['City', 'School District', 'Special District']

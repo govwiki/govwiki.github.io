@@ -32,9 +32,6 @@ window.GOVWIKI =
     $('#searchContainer').hide()
     #$(window).scrollTo('#pBackToSearch',600)
 
-
-
-
 #gov_selector = new GovSelector '.typeahead', 'data/h_types.json', 7
 gov_selector = new GovSelector '.typeahead', 'data/h_types_ca.json', 7
 #gov_selector = new GovSelector '.typeahead', 'http://46.101.3.79/rest/db/govs?filter=state=%22CA%22&app_name=govwiki&fields=_id,gov_name,gov_type,state&limit=5000', 7
@@ -107,7 +104,7 @@ router.get ':id', (req) ->
       return
 
 
-get_counties = (callback) ->
+GOVWIKI.get_counties = get_counties = (callback) ->
   $.ajax
     url: 'data/county_geography_ca.json'
     dataType: 'json'
@@ -115,7 +112,7 @@ get_counties = (callback) ->
     success: (countiesJSON) ->
       callback countiesJSON
 
-draw_polygons = (countiesJSON) ->
+GOVWIKI.draw_polygons = draw_polygons = (countiesJSON) ->
   for county in countiesJSON.features
     govmap.map.drawPolygon({
       paths: county.geometry.coordinates
@@ -301,7 +298,6 @@ window.GOVWIKI.show_record =(rec)=>
 
 window.GOVWIKI.show_record2 =(rec)=>
   get_elected_officials rec._id, 25, (data, textStatus, jqXHR) ->
-    console.log '123'
     rec.elected_officials = data
     $('#details').html templates.get_html(0, rec)
     get_record2 rec._id
