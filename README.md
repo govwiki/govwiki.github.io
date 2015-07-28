@@ -1,5 +1,5 @@
 # Govwiki.us -  site project
-## http://govwiki.us/
+## http://civciprofiles.californiapolicycenter.org
 
 
 A project for  govwiki.us future site. Html pages, scripts, css etc.
