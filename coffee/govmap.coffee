@@ -41,7 +41,7 @@ on_bounds_changed_later  = (msec)  ->
   clearTimeout bounds_timeout
   bounds_timeout = setTimeout on_bounds_changed, msec
 
-    
+
 on_bounds_changed =(e) ->
   console.log "bounds_changed"
   b=map.getBounds()
@@ -100,10 +100,10 @@ on_bounds_changed =(e) ->
     return
 
 get_icon =(gov_type) ->
-  
+
   _circle =(color)->
     path: google.maps.SymbolPath.CIRCLE
-    fillOpacity: 0.5
+    fillOpacity: 1
     fillColor:color
     strokeWeight: 1
     strokeColor:'white'
@@ -111,10 +111,12 @@ get_icon =(gov_type) ->
     scale:6
 
   switch gov_type
-    when 'General Purpose' then return _circle '#03C'
-    when 'Cemeteries'      then return _circle '#000'
-    when 'Hospitals'       then return _circle '#0C0'
-    else return _circle '#D20'
+    when 'General Purpose' then return _circle 'red'
+    when 'School District' then return _circle 'lightblue'
+    when 'Dependent School System' then return _circle 'lightblue'
+#    when 'Cemeteries'      then return _circle 'purple'
+#    when 'Hospitals'       then return _circle 'blue'
+    else return _circle 'purple'
 
 
 
@@ -131,7 +133,7 @@ add_marker =(rec)->
     click: (e)->
       #window.GOVWIKI.show_record rec
       window.GOVWIKI.show_record2 rec
-  
+
   return
 
 
@@ -200,7 +202,7 @@ geocode_addr = (addr,data) ->
           title: results[0].formatted_address
           infoWindow:
             content: results[0].formatted_address
-        
+
         if data
           map.addMarker
             lat: data.latitude
@@ -211,7 +213,7 @@ geocode_addr = (addr,data) ->
             title:  "#{data.latitude} #{data.longitude}"
             infoWindow:
               content: "#{data.latitude} #{data.longitude}"
-            
+
         $('.govmap-found').html "<strong>FOUND: </strong>#{results[0].formatted_address}"
       return
 

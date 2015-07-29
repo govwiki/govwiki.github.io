@@ -233,8 +233,14 @@ a {
   min-width: 111px;
 }
 #legend > ul > li.list-group-item {
-  padding: 8px;
+  padding: 8px 8px 8px 19px;
+  position: relative;
   cursor: pointer;
+}
+#legend > ul > li.list-group-item span.glyphicon-ok {
+  position: absolute;
+  left: 8px;
+  top: 12px;
 }
 #legend > ul > li.list-group-item:not(.active):hover {
   background-color: #eee;
@@ -364,4 +370,28 @@ ul.search-icon li > a:hover {
 span.rank {
   font-style: italic;
   font-size: 75%;
+}
+/*map legend circles*/
+.marker-circle {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-left: 4px;
+  margin-right: 4px;
+  vertical-align: text-top;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+.red-circle {
+  background: #f00;
+}
+.blue-circle {
+  background: #add8e6;
+}
+.purple-circle {
+  background: #800080;
+}
+.counties-trigger .counties-title {
+  padding-left: 20px;
 }

@@ -264,8 +264,14 @@ h3,a
   min-width 111px
 
 #legend > ul > li.list-group-item
-  padding 8px
+  padding 8px 8px 8px 19px
+  position relative
   cursor pointer
+  span.glyphicon-ok
+      position absolute
+      left 8px
+      top 12px
+
   &:not(.active)
     &:hover
       background-color #EEE
@@ -298,7 +304,7 @@ h3,a
 
 /* second footer style */
 
-#socket 
+#socket
   font-size: 11px
   margin-top: -1px
   z-index: 1
@@ -307,12 +313,12 @@ h3,a
   box-shadow: 2px 5px 22px -1px rgba(0,0,0,0.49)
 
 
-#socket .container 
+#socket .container
   padding-top: 15px
   padding-bottom: 15px
 
 
-#socket .copyright 
+#socket .copyright
   line-height: 1.5em
   float: left
 
@@ -411,3 +417,28 @@ ul.search-icon
 span.rank
   font-style italic
   font-size  75%
+
+/*map legend circles*/
+.marker-circle
+  display: inline-block
+  width: 12px
+  height: 12px
+  margin-left: 4px
+  margin-right: 4px
+  vertical-align: text-top
+  -webkit-border-radius: 50%
+  -moz-border-radius: 50%
+  border-radius: 50%
+
+.red-circle
+  background: red
+
+.blue-circle
+  background: lightblue
+
+.purple-circle
+  background: purple
+
+.counties-trigger
+    .counties-title
+      padding-left: 20px
