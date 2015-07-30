@@ -117,7 +117,7 @@ GOVWIKI.draw_polygons = draw_polygons = (countiesJSON) ->
     govmap.map.drawPolygon({
       paths: county.geometry.coordinates
       useGeoJSON: true
-      strokeColor: '#FF0000'
+      strokeColor: '#808080'
       strokeOpacity: 0.6
       strokeWeight: 1.5
       fillColor: '#FF0000'

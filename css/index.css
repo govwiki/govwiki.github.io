@@ -392,6 +392,11 @@ span.rank {
 .purple-circle {
   background: #800080;
 }
-.counties-trigger .counties-title {
-  padding-left: 20px;
+.counties-trigger .grey-line {
+  width: 12px;
+  height: 4px;
+  background: #808080;
+  display: inline-block;
+  margin: 0 4px;
+  vertical-align: middle;
 }
