@@ -400,3 +400,52 @@ span.rank {
   margin: 0 4px;
   vertical-align: middle;
 }
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+  #median-comp-graph {
+    float: left;
+  }
+  #median-pension-graph {
+    float: left;
+  }
+  #pct-pension-graph {
+    float: left;
+  }
+  #public-safety-pie {
+    float: left;
+  }
+  #fin-health-revenue-graph {
+    float: left;
+  }
+  #fin-health-expenditures-graph {
+    float: left;
+  }
+}
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  #details {
+    margin-top: 50px;
+  }
+  #median-comp-graph {
+    float: left;
+    margin-left: -20px;
+  }
+  #median-pension-graph {
+    float: left;
+    margin-left: -20px;
+  }
+  #pct-pension-graph {
+    float: left;
+    margin-left: -20px;
+  }
+  #public-safety-pie {
+    float: left;
+    margin-left: -20px;
+  }
+  #fin-health-revenue-graph {
+    float: left;
+    margin-left: -20px;
+  }
+  #fin-health-expenditures-graph {
+    float: left;
+    margin-left: -20px;
+  }
+}
