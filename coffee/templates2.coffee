@@ -27,6 +27,8 @@ render_field_value = (n,mask,data) ->
       if data[n+'_rank'] and data.max_ranks and data.max_ranks[n+'_max_rank']
         v = numeral(v).format(mask)
         return "#{v} <span class='rank'>(#{data[n+'_rank']} of #{data.max_ranks[n+'_max_rank']})</span>"
+      if n == "number_of_full_time_employees"
+        return numeral(v).format('0,0')
       return numeral(v).format(mask)
     else
       if v.length > 20 and
@@ -223,6 +225,11 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               formatter.format(vis_data, 2);
               options =
                 'title':'Median Total Compensation - Full Time Workers: \n Government vs. Private Sector'
+                'titleTextStyle':
+                 'fontSize': 12
+                'tooltip':
+                 'textStyle':
+                  'fontSize': 12
                 'width': 340
                 'height': 300
                 'isStacked': 'true'
@@ -255,11 +262,18 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               formatter.format(vis_data, 1);
               options =
                 'title':'Median Total Pension'
+                'titleTextStyle':
+                 'fontSize': 12
+                'tooltip':
+                 'textStyle':
+                  'fontSize': 12
                 'width': 340
                 'height': 300
+                'bar': {
+                 'groupWidth': '30%'
+                 }
                 'isStacked': 'true'
                 'colors': ['#005ce6', '#009933']
-                'chartArea.width': '50%'
               if graph
                 chart = new google.visualization.ColumnChart document.getElementById 'median-pension-graph'
                 chart.draw vis_data, options
@@ -295,6 +309,11 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               ]
               options =
                 'title':'Public safety expense'
+                'titleTextStyle':
+                 'fontSize': 12
+                'tooltip':
+                 'textStyle':
+                  'fontSize': 12
                 'width': 340
                 'height': 300
                 'is3D' : 'true'
@@ -333,6 +352,11 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               ]
               options =
                 'title':'Total Revenue'
+                'titleTextStyle':
+                 'fontSize': 12
+                'tooltip':
+                 'textStyle':
+                  'fontSize': 12
                 'width': 470
                 'height': 300
                 'isStacked': 'true'
@@ -369,6 +393,11 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               ]
               options =
                 'title':'Total Expenditures'
+                'titleTextStyle':
+                 'fontSize': 12
+                'tooltip':
+                 'textStyle':
+                  'fontSize': 12
                 'width': 470
                 'height': 300
                 'isStacked': 'true'
@@ -414,7 +443,12 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               vis_data.addRows rows
               options =
                 'title':'Total Revenues'
-                'width': 400
+                'titleTextStyle':
+                 'fontSize': 12
+                'tooltip':
+                 'textStyle':
+                  'fontSize': 12
+                'width': 470
                 'height': 350
                 'pieStartAngle': 60
                 'sliceVisibilityThreshold': .05
@@ -457,7 +491,12 @@ render_tabs = (initial_layout, data, tabset, parent) ->
               vis_data.addRows rows
               options =
                 'title':'Total Expenditures'
-                'width': 400
+                'titleTextStyle':
+                 'fontSize': 12
+                'tooltip':
+                 'textStyle':
+                  'fontSize': 12
+                'width': 470
                 'height': 350
                 'pieStartAngle': 60
                 'sliceVisibilityThreshold': .05
